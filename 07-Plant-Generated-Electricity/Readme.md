@@ -1,0 +1,3 @@
+Problem 7: Plant Generated Electricity
+
+Statement: ...
