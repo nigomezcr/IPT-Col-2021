@@ -1,8 +1,9 @@
-all: data.txt
-
 CXX=g++
 OBJECTS=main-md.o md-simulation.o
 CXXFLAGS=-O2 -g -std=c++14
+
+all: show
+
 
 main-md.x: $(OBJECTS) walker.h
 	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $@
@@ -15,6 +16,9 @@ data.txt: main-md.x
 
 plot: data.txt plots.gp
 	gnuplot plots.gp
+
+show: plot
+	evince y-x.pdf #y-t.pdf x-t.pdf &
 
 
 

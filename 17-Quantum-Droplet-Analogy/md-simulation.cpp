@@ -28,10 +28,10 @@ void compute_force(Walker & body)
   }
 
   //driving force
-  //body.Fy += a*std::sin(f*body.Vy);
+  body.Fx += a*std::sin(f*body.Vx);
 
   //damping force
-  //body.Fx
+  body.Fx -= b*body.Vx;
 }
 
 
