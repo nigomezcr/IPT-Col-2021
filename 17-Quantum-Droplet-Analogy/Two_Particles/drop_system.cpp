@@ -6,9 +6,10 @@ drop_system::drop_system (
   double f,
   double a,
   double b,
+  double lf,
   std::vector< std::map< std::string, std::vector<double> > > drops_R_V_F,
   std::vector< std::map< std::string, double> > drops_m_r
-): m_drops({}),  m_g(g), m_K(K), m_f(f), m_a(a), m_b(b) {
+): m_drops({}),  m_g(g), m_K(K), m_f(f), m_a(a), m_b(b), m_lf(lf) {
 
   for (int drop_index = 0; drop_index < drops_R_V_F.size(); drop_index++) {
     m_drops.push_back(drop(
@@ -53,11 +54,28 @@ void drop_system::compute_force() {
       F[2] += delta * m_K;
     }
 
+    std::vector<double> R = m_drops[drop_index].GetR();
+    std::vector<double> V = m_drops[drop_index].GetV();
+    double v = std::sqrt(V[0] * V[0] + V[1] * V[1]);
+
     //driving force
-    F[0] += m_a * std::sin(m_f * m_drops[drop_index].GetV()[0]);
+    F[0] += m_a * std::sin(m_f * v) * V[0]/v;
+    F[1] += m_a * std::sin(m_f * v) * V[1]/v;
 
     //damping force
-    F[0] -= m_b * m_drops[drop_index].GetV()[0];
+    F[0] -= m_b * V[0];
+    F[1] -= m_b * V[1];
+
+    for (size_t second_drop = 0; second_drop < m_drops.size(); second_drop++) {
+      if (second_drop != drop_index) {
+        std::vector<double> R_2 = m_drops[second_drop].GetR();
+        std::vector<double> R_12 = {R[0] - R_2[0], R[1] - R_2[1]};
+        double r_12 = std::sqrt(R_12[0] * R_12[0] + R_12[1] * R_12[1]);
+
+        F[0] += 0.1 * m_lf * R_12[0] / (r_12 * r_12) * std::sin(r_12 / m_lf);
+        F[1] += 0.1 * m_lf * R_12[1] / (r_12 * r_12) * std::sin(r_12 / m_lf);
+      }
+    }
 
     m_drops[drop_index].SetF(F);
   }

@@ -3,8 +3,8 @@
 #include <string>
 #include <fstream>
 
-const int NSTEPS = 10000;
-const double DT = 0.001;
+const int NSTEPS = 1000;
+const double DT = 0.01;
 
 int main(void) {
   std::vector< std::map< std::string, std::vector<double> > > drops_R_V_F;
@@ -13,8 +13,8 @@ int main(void) {
   std::map< std::string, std::vector<double> > vec_R_V_F;
   std::map< std::string, double> vec_m_r;
 
-  vec_R_V_F["R"] = {0.0, 0.0, 1.0};
-  vec_R_V_F["V"] = {0.01, 0.0, 0.0};
+  vec_R_V_F["R"] = {0.05, -0.0001, 1.0};
+  vec_R_V_F["V"] = {-0.005, 0.0, 0.0};
   vec_R_V_F["F"] = {0.0, 0.0, 0.0};
   vec_m_r["m"] = 1.0;
   vec_m_r["r"] = 0.43;
@@ -22,8 +22,8 @@ int main(void) {
   drops_R_V_F.push_back(vec_R_V_F);
   drops_m_r.push_back(vec_m_r);
 
-  vec_R_V_F["R"] = {0.0, 1.0, 2.0};
-  vec_R_V_F["V"] = {0.01, 0.0, 0.0};
+  vec_R_V_F["R"] = {-0.05, 0.0001, 1.0};
+  vec_R_V_F["V"] = {0.005, 0.0, 0.0};
   vec_R_V_F["F"] = {0.0, 0.0, 0.0};
   vec_m_r["m"] = 1.0;
   vec_m_r["r"] = 0.43;
@@ -31,7 +31,10 @@ int main(void) {
   drops_R_V_F.push_back(vec_R_V_F);
   drops_m_r.push_back(vec_m_r);
 
-  drop_system my_system(-9.81, 50.0, 33.0, 0.031, 1.0, drops_R_V_F, drops_m_r);
+  drop_system my_system(
+    -9.81, 50.0, 33.0, 0.031, 1.0, 0.0005,
+    drops_R_V_F, drops_m_r
+  );
 
   // start system
   // my_system.initial_conditions(drops_R_V_F, drops_m_r);

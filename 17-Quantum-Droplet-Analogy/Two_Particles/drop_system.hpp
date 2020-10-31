@@ -16,6 +16,7 @@ public:
     double f,
     double a,
     double b,
+    double lf,
     std::vector< std::map< std::string, std::vector<double> > > drops_R_V_F,
     std::vector< std::map<std::string, double> > drops_m_r
   );
@@ -43,6 +44,7 @@ private:
   const double m_f;
   const double m_a;
   const double m_b;
+  const double m_lf;
 };
 
 #endif // DROP_SYSTEM_HPP
