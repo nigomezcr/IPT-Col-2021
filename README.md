@@ -19,4 +19,4 @@ Each main folder in this repo is associated to one of the proposed problems and 
 
 ## *We wish ourselves a lot of luck! Have fun.*
 
-![all text](https://github.com/nigomezcr/UNPT2020-/blob/master/Images/profilePicture.jpeg?raw=true)
+![all text](https://github.com/nigomezcr/UNPT2020/blob/master/Images/profilePicture.jpeg?raw=true)
