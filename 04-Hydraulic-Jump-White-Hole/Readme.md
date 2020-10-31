@@ -1,3 +1,3 @@
-Problem 4: Hydraulic Jump White Hole
+# Problem 4: Hydraulic Jump White Hole
 
-Statement: ...
+When a steady stream of water from a tap hits the sink, the water spreads in a circular disc bounded by a region where the water height is greater than its surroundings, as seen in the Figure. This so-called hydraulic jump is analogous to a white hole, the time-reversed version of a black hole, in the sense that surface waves cannot enter the disc against the flow, whilst there is a natural outward flow. Explain the physics behind the hydraulic jump, and how its properties can be matched to those of a white hole. Perform an experiment in order to verify the correspondence. Is it possible to make a hydraulic jump with liquids other than water? When does the white hole analogy break down?

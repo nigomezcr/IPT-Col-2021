@@ -1,3 +1,3 @@
-Problem 7: Plant Generated Electricity
+# Problem 7: Plant Generated Electricity
 
-Statement: ...
+Some internet posts suggest that it is possible to generate electricity from photosynthesis by charging a battery connected to a metallic network that winds through the roots of a plant. In response, a skeptic may claim that the setup is just a voltaic pile, and therefore, photosynthesis is irrelevant. Explain the phenomenon and specifically determine whether photosynthesis is indeed involved. Determine the main factors affecting the phenomenon and optimize them so as to generate the maximum amount of electricity. [Video](https://www.youtube.com/watch?v=5QY-E0gzW90)

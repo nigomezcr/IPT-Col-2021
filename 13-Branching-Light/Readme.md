@@ -1,3 +1,3 @@
-Problem 13: Branching Light
+# Problem 13: Branching Light
 
-Statement: ...
+When a laser beam passes through a thin film (e.g., soap bubble film), random filaments of light are created in an effect known as *branch flow*. Explain the phenomenon. Can one design a medium to produce specific branching patterns? Can it be extended to other wave phenomena (water waves or sound waves), etc? [Video](https://www.youtube.com/watch?v=UNCNp1tBqKY&feature=youtu.be)
