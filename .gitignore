@@ -1,5 +1,8 @@
 *a.out
 *.txt
+*.png
+*.jpeg
+*.pdf
 *.x
 *.o
 *#
