@@ -23,5 +23,5 @@ show: plot
 
 
 clean:
-	rm -f *.o *.x *.txt *.pdf
+	rm -f *.o *.x *.txt *.pdf *~
 

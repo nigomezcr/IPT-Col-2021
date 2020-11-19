@@ -8,9 +8,9 @@ const double g = -9.81;
 const int NSTEPS = 1000;
 const double DT = 0.01;
 const double K = 10;
-const double f = 5;
-const double a = 0.9;
-const double b = 0.9;
+const double f = 33;
+const double a = 0.032;
+const double b = 1;
 
 // function declarations
 void initial_conditions(Walker & body);

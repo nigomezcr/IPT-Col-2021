@@ -5,7 +5,7 @@ void initial_conditions(Walker & body)
 {
   body.Ry = 1.0;
   body.Rz = 0.0;
-  body.Vx = 0.0;
+  body.Vx = 0.1;
   body.Vy = 0.0;
   body.Vz = 0.0;
 

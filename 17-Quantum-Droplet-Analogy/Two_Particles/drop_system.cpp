@@ -66,14 +66,15 @@ void drop_system::compute_force() {
     F[0] -= m_b * V[0];
     F[1] -= m_b * V[1];
 
+    //binding forces
     for (size_t second_drop = 0; second_drop < m_drops.size(); second_drop++) {
       if (second_drop != drop_index) {
         std::vector<double> R_2 = m_drops[second_drop].GetR();
         std::vector<double> R_12 = {R[0] - R_2[0], R[1] - R_2[1]};
-        double r_12 = std::sqrt(R_12[0] * R_12[0] + R_12[1] * R_12[1]);
+        double r_12 = std::sqrt(R_12[0] * R_12[0] + R_12[1] * R_12[1] );
 
-        F[0] += 0.1 * m_lf * R_12[0] / (r_12 * r_12) * std::sin(r_12 / m_lf);
-        F[1] += 0.1 * m_lf * R_12[1] / (r_12 * r_12) * std::sin(r_12 / m_lf);
+        F[0] += m_a * m_lf * R_12[0] / (r_12 * r_12) * std::sin(r_12 / m_lf);
+        F[1] += m_a * m_lf * R_12[1] / (r_12 * r_12) * std::sin(r_12 / m_lf);
       }
     }
 
