@@ -3,8 +3,8 @@
 #include <string>
 #include <fstream>
 
-const int NSTEPS = 5500;
-const double DT = 0.1;
+const int NSTEPS = 55e4;
+const double DT = 1e-3;
 
 int main(void) {
   std::vector< std::map< std::string, std::vector<double> > > drops_R_V_F;
