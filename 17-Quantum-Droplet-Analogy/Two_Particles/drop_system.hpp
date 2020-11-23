@@ -28,6 +28,8 @@ public:
     std::vector< std::map< std::string, std::vector<double> > > drops_R_V,
     std::vector< std::map<std::string, double> > drops_m_r
   );
+  void compute_position(double constant, double dt);
+  void compute_velocity(double constant, double dt);  
   void compute_force();
   void time_integration(const double & dt);
   void start_integration(const double & dt);

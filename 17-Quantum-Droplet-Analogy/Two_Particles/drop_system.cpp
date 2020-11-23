@@ -1,4 +1,15 @@
 #include "drop_system.hpp"
+/* VEFRL 4-th Order */
+/*
+const double xi = 0.1644986515575760e0;
+const double lambda = -0.2094333910398989e-1;
+const double chi = 0.1235692651138917e1;
+*/
+
+/* PEFRL 4-th Order */
+const double xi = 0.1786178958448091;
+const double lambda = -0.2123418310626054;
+const double chi = -0.6626458266981849e-1;
 
 drop_system::drop_system (
   double g,
@@ -13,12 +24,12 @@ drop_system::drop_system (
 
   for (int drop_index = 0; drop_index < drops_R_V_F.size(); drop_index++) {
     m_drops.push_back(drop(
-      drops_R_V_F[drop_index]["R"],
-      drops_R_V_F[drop_index]["V"],
-      drops_R_V_F[drop_index]["F"],
-      drops_m_r[drop_index]["m"],
-      drops_m_r[drop_index]["r"])
-    );
+			   drops_R_V_F[drop_index]["R"],
+			   drops_R_V_F[drop_index]["V"],
+			   drops_R_V_F[drop_index]["F"],
+			   drops_m_r[drop_index]["m"],
+			   drops_m_r[drop_index]["r"])
+		      );
   }
 
 }
@@ -28,8 +39,8 @@ drop_system::~drop_system () {}
 void drop_system::initial_conditions(
   std::vector< std::map< std::string, std::vector<double> > > drops_R_V,
   std::vector< std::map<std::string, double> > drops_m_r
-) {
-
+				     ) {
+  
   for (int drop_index = 0; drop_index < drops_R_V.size(); drop_index++) {
     m_drops[drop_index].SetR(drops_R_V[drop_index]["R"]);
     m_drops[drop_index].SetV(drops_R_V[drop_index]["V"]);
@@ -37,6 +48,25 @@ void drop_system::initial_conditions(
     m_drops[drop_index].SetRad(drops_m_r[drop_index]["r"]);
   }
 }
+
+
+void drop_system::compute_position(double constant, double dt){
+  for(size_t i=0; i<m_drops.size(); i++){
+    for(size_t j=0; j<m_drops[i].m_R.size(); j++){
+      m_drops[i].m_R[j] += m_drops[i].m_V[j]*constant*dt;
+    }
+  }
+}
+
+
+void drop_system::compute_velocity(double constant, double dt){
+  for(size_t i=0; i<m_drops.size(); i++){
+    for(size_t j=0; j<m_drops[i].m_V.size(); j++){
+      m_drops[i].m_V[j] += m_drops[i].m_F[j]*constant*dt/m_drops[i].m_mass;
+    }
+  }
+}
+
 
 void drop_system::compute_force() {
   for (int drop_index = 0; drop_index < m_drops.size(); drop_index++) {
@@ -96,10 +126,12 @@ void drop_system::start_integration(const double & dt) {
 }
 
 void drop_system::time_integration(const double & dt) {
+  /* Leap-frog */
+  /*
   for (int drop_index = 0; drop_index < m_drops.size(); drop_index++) {
     std::vector <double> V = m_drops[drop_index].GetV();
     std::vector <double> R = m_drops[drop_index].GetR();
-
+    
     V[0] += m_drops[drop_index].GetF()[0]*dt/m_drops[drop_index].GetMass();
     V[1] += m_drops[drop_index].GetF()[1]*dt/m_drops[drop_index].GetMass();
     V[2] += m_drops[drop_index].GetF()[2]*dt/m_drops[drop_index].GetMass();
@@ -110,9 +142,51 @@ void drop_system::time_integration(const double & dt) {
     R[1] += m_drops[drop_index].GetV()[1] * dt;
     R[2] += m_drops[drop_index].GetV()[2] * dt;
 
-    m_drops[drop_index].SetR(R);
-  }
+    m_drops[drop_index].SetR(R);  
+    }*/
+
+  /* VEFRL 4-th Order */
+  /*
+  compute_force();
+  compute_velocity(xi, dt);
+  compute_position(0.5 - lambda, dt);
+  
+  compute_force();
+  compute_velocity(chi, dt);
+  compute_position(lambda, dt);
+
+  compute_force();
+  compute_velocity(1.0 - 2.0*(chi+xi), dt);
+  compute_position(lambda, dt);
+
+  compute_force();
+  compute_velocity(chi, dt);
+  compute_position(0.5 - lambda, dt);
+
+  compute_force();
+  compute_velocity(xi, dt);
+  */
+
+  /* PEFRL 4-th Order */
+  compute_position(xi, dt);
+  compute_force();
+  compute_velocity(0.5 - lambda, dt);
+
+  compute_position(chi, dt);
+  compute_force();
+  compute_velocity(lambda, dt);
+
+  compute_position(1.0 - 2.0*(xi+chi), dt);
+  compute_force();
+  compute_velocity(lambda, dt);
+
+  compute_position(chi, dt);
+  compute_force();
+  compute_velocity(0.5 - lambda, dt);
+
+  compute_position(xi, dt);
 }
+
 
 void drop_system::print(int body) {
   std::cout

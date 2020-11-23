@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+//#include "drop_system.hpp"
 
 class drop {
 public:
@@ -29,6 +30,8 @@ public:
   void SetF(std::vector<double> F);
 
   void ResetF();
+
+  friend class drop_system;
 
 private:
   double m_mass;
