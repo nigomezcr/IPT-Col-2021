@@ -8,10 +8,14 @@ Welcome to our repository! Here you can find some of the work done in our way to
 
 - Sebastian Ordoñez (**Lieutenant General**)
 - Daniel Ortiz (**Major General**)
+- Maria Paula Montes (**Brigadier General**)
+- Juan Bernardo (**Lieutenant Colonel**)
+- Juan Pablo (**Captain**)
+- Arduino Uno (**Sargent**)
 
-- Lorena Bucuru (**Brigadier General**)
-- Maria Paula Montes (**Colonel**)
-- Andrés Moreno (**Lieutenant Colonel**)
+- Alejandra Alarcón(**Admiral**) --R.I.P.
+- Lorena Bucuru (**Major**) --R.I.P.
+- Andrés Moreno (*Officer cadet**) --R.I.P.
 
 Each main folder in this repo is associated to one of the proposed problems and includes different kind of resources employed to solve them. Welcome to our journey!
 
