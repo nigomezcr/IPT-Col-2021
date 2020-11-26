@@ -13,9 +13,9 @@ Welcome to our repository! Here you can find some of the work done in our way to
 - Juan Pablo (**Captain**)
 - Arduino Uno (**Sargent**)
 
-- Alejandra Alarcón(**Admiral**) --R.I.P.
-- Lorena Bucuru (**Major**) --R.I.P.
-- Andrés Moreno (*Officer cadet**) --R.I.P.
+- Alejandra Alarcón(*Admiral*) --R.I.P.
+- Lorena Bucuru (*Major*) --R.I.P.
+- Andrés Moreno (*Officer cadet*) --R.I.P.
 
 Each main folder in this repo is associated to one of the proposed problems and includes different kind of resources employed to solve them. Welcome to our journey!
 
