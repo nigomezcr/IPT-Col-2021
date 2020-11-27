@@ -52,7 +52,7 @@ int main(void) {
   // evolve
   for(int istep = 0; istep < NSTEPS; ++istep) {
     my_system.time_integration(DT);
-    my_system.compute_force();
+    //my_system.compute_force();
     std::cout << istep*DT << " ";
     my_system.print(0);
     my_system.print(1);
