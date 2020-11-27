@@ -1,8 +1,11 @@
-const int Volt = A1;
-const int sensorPin = A0;
+const int Volt1 = A2;
+const int sensorPin1 = A0;
+const int Volt2 = A3;
+const int sensorPin2 = A1;
+
 int t=0;
-unsigned int humedad;
-unsigned int voltaje;
+float humedad1, humedad2;
+float voltaje1, voltaje2;
 
 void setup()
 {
@@ -11,22 +14,31 @@ void setup()
 
 void loop(){
      int x;
-     humedad = 0;
-     voltaje = 0;
+     humedad1, humedad2 = 0;
+     voltaje1, voltaje2 = 0;
      for(x=0; x<100; x++){
             delay(10);
-            humedad = analogRead(sensorPin) + humedad;
-            voltaje = analogRead(Volt) + voltaje;
+            humedad1 = analogRead(sensorPin1) + humedad1;
+            voltaje1 = analogRead(Volt1) + voltaje1;
+            humedad2 = analogRead(sensorPin2) + humedad2;
+            voltaje2 = analogRead(Volt2) + voltaje2;
+     
      }
-     humedad = humedad/(100);
-     voltaje = voltaje*5000.0/(100.0*1023.0);
+     humedad1 = 100 - humedad1/(1023.);
+     voltaje1 = voltaje1*50.0/(1023.0);
+     humedad2 = 100 - humedad2/(1023.);
+     voltaje2 = voltaje2*50.0/(1023.0);
      
   
      Serial.print(t);
      Serial.print("\t");
-     Serial.print(humedad);
+     Serial.print(humedad1);
      Serial.print("\t");
-     Serial.print(voltaje);
+     //Serial.print(humedad2);
+     //Serial.print("\t");
+     Serial.print(voltaje1);
+     // Serial.print("\t");
+     //Serial.print(voltaje2);
      Serial.print("\n");
      t= t+10;
      delay(9e3);
