@@ -8,4 +8,13 @@ set fit quiet
 
 fit f(x) nameCSV u (log($1)):(log($2)) via a,b
 
-print(abs(a))
+#set terminal pdfcairo
+
+#set xlabel "log(epsilon)"
+
+value = sprintf("%f", abs(a))
+print(filename.'\t'.value)
+
+
+
+
