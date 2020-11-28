@@ -3,7 +3,7 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <string>
-#include <fractal_dimension.h>
+#include "fractal_dimension.h"
 
 int main(int argc, char *argv[])
 {
