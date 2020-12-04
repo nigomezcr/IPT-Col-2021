@@ -1,16 +1,16 @@
-#include "md-simulation.h"
+#include "system.hpp"
 #include<cmath>
 
 void initial_conditions(Walker & body)
 {
-  body.Ry = 1.0;
-  body.Rz = 0.0;
-  body.Vx = 0.1;
-  body.Vy = 0.0;
-  body.Vz = 0.0;
+  body.Ry = 1.0;       //in mm
+  body.Rz = 0.0;       //in mm
+  body.Vx = 0.1;       //in mm/ms = m/s
+  body.Vy = 0.0;       //in mm/ms = m/s
+  body.Vz = 0.0;       //in mm/ms = m/s
 
-  body.rad = 0.1;
-  body.mass = 0.1;
+  body.rad = 0.43;    //in mm
+  body.mass = 1;      //in 1e-6 kg
 }
 
 void compute_force(Walker & body)
@@ -60,8 +60,8 @@ void print(Walker & body, double time)
             << body.Rx << "  "
             << body.Ry << "  "
             << body.Rz << "  "
-            << body.Vx << "  "
-            << body.Vy << "  "
-            << body.Vz << "  "
+  //        << body.Vx << "  "
+  //        << body.Vy << "  "
+  //        << body.Vz << "  "
             << "\n";
 }

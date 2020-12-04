@@ -1,5 +1,5 @@
-#ifndef __WALKER_H_
-#define __WALKER_H_
+#ifndef __WALKER_HPP_
+#define __WALKER_HPP_
 
 struct Walker
 {
@@ -12,4 +12,4 @@ struct Walker
 };
 
 
-#endif // __WALKER_H_
+#endif // __WALKER_HPP_
