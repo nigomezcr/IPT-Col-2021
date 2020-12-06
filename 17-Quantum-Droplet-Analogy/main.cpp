@@ -16,8 +16,8 @@ int main(void)
   for(int istep = 0; istep < NSTEPS; ++istep) {
     time_integration(drop, DT);
     compute_force(drop);
-    print(drop, istep*DT);
     if (istep % 10 == 0) {
+      print(drop, istep*DT);
       std::string fname = "simuldata/simul-" + std::to_string(istep) + ".txt";
       std::ofstream fout(fname);
       fout << drop.Rx << ", "

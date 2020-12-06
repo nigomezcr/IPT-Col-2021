@@ -59,10 +59,13 @@ plot: data.txt plots.gp
 	gnuplot plots.gp
 
 show: plot
-	evince y-x.pdf #y-t.pdf x-t.pdf &
+	evince  z-x.pdf # y-x.pdf  y-z.pdf #y-t.pdf x-t.pdf &
 
 ##################################################################
 
-clean:
+erase:
+	rm -f *.x *.txt *.pdf *~
+
+clean:	
 	rm -f *.o *.x *.txt *.pdf *~
 

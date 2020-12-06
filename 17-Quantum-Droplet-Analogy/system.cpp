@@ -3,11 +3,12 @@
 
 void initial_conditions(Walker & body)
 {
+  body.Rx = 60.;
   body.Ry = 1.0;       //in mm
   body.Rz = 0.0;       //in mm
-  body.Vx = 0.1;       //in mm/ms = m/s
+  body.Vx = 0.01;       //in mm/ms = m/s
   body.Vy = 0.0;       //in mm/ms = m/s
-  body.Vz = 0.0;       //in mm/ms = m/s
+  body.Vz = -0.002;       //in mm/ms = m/s
 
   body.rad = 0.43;    //in mm
   body.mass = 1;      //in 1e-6 kg
@@ -24,15 +25,51 @@ void compute_force(Walker & body)
   //Elastic force
   double delta = body.rad - body.Ry;
   if(delta > 0){
-  body.Fy += delta*K;
+  body.Fy += delta*k;
   }
 
   //driving force
   body.Fx += a*std::sin(f*body.Vx);
+  body.Fz += a*std::sin(f*body.Vz);
 
   //damping force
   body.Fx -= b*body.Vx;
+  body.Fz -= b*body.Vz;
+
+  //Left wall
+  double Lx = -100;
+  delta = body.rad - body.Rx + Lx;
+  if (delta > 0) {
+  body.Fx = K*delta;
+  }
+
+  //Right wall
+  Lx = 100;
+  delta = body.rad + body.Rx - Lx;
+
+  if (delta > 0) {
+  body.Fx -= K*delta;
+  }
+
+  //back wall
+  double Lz = -100;
+  delta = body.rad - body.Rz + Lz;
+  if (delta > 0) {
+  body.Fz += K*delta;
+  }
+
+  //front wall
+  Lz = 100;
+  delta = body.rad + body.Rz - Lz;
+
+  if (delta > 0) {
+  body.Fz -= K*delta;
+  }
+
 }
+
+
+
 
 
 void start_integration(Walker & body, const double & dt)
