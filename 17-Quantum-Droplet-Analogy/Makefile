@@ -6,7 +6,7 @@ VALGRINDFLAGS=--tool=memcheck  --track-origins=yes --leak-check=full
 
 ##################################################################
 
-all: data.txt
+all: upview.csv
 
 %.o:  %.cpp %.hpp erase 
 	$(CXX)  -c  $< -o  $@
@@ -15,7 +15,7 @@ sanitize: $(OBJECTS)
 	$(CXX)  $(CXXFLAGS) $(SANITFLAGS)  $^  -o main.x
 	./main.x 
 
-data.txt: main.x
+upview.csv: main.x
 	./$< > $@
 	@echo "END RUN WITH SANITIZERS"
 

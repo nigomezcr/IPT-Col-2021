@@ -18,14 +18,14 @@ int main(void)
     compute_force(drop);
     if (istep % 10 == 0) {
       print(drop, istep*DT);
-      std::string fname = "simuldata/simul-" + std::to_string(istep) + ".txt";
+      /*      std::string fname = "simuldata/simul-" + std::to_string(istep) + ".txt";
       std::ofstream fout(fname);
       fout << drop.Rx << ", "
            << drop.Ry << ", "
            << drop.Rz << ", "
            << drop.mass << ", "
            << drop.rad << "\n";
-      fout.close();
+	   fout.close();*/
     }
   }
   return 0;
