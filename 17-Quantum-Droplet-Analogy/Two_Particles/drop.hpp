@@ -12,7 +12,7 @@ public:
     std::vector<double> V,
     std::vector<double> F,
     double mass = 1,
-    double rad = 0.35
+    double rad = 0.43
   );
 
   ~drop ();

@@ -16,11 +16,11 @@ data2.txt: main.x
 	./$< > $@
 
 
-pdfs: data2.txt plots2.gp
+plot: data2.txt plots2.gp
 	gnuplot plots2.gp
 
-show:  pdfs
-	evince two_drops.pdf
+show:  plot
+	evince two_drops.pdf # z-x.pdf
 
 clean:
 	rm -f *.txt *.o *.x *~ a.out
