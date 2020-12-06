@@ -26,7 +26,7 @@ void loop(){
      }
      humedad1 = 100 - humedad1/(1023.);
      voltaje1 = voltaje1*50.0/(1023.0);
-     humedad2 = 100 - humedad2/(1023.);
+     humedad2 = humedad2*50.0/(1023.0);
      voltaje2 = voltaje2*50.0/(1023.0);
      
   
@@ -34,11 +34,11 @@ void loop(){
      Serial.print("\t");
      Serial.print(humedad1);
      Serial.print("\t");
-     //Serial.print(humedad2);
-     //Serial.print("\t");
+     Serial.print(humedad2);
+     Serial.print("\t");
      Serial.print(voltaje1);
-     // Serial.print("\t");
-     //Serial.print(voltaje2);
+     Serial.print("\t");
+     Serial.print(voltaje2);
      Serial.print("\n");
      t= t+10;
      delay(9e3);
