@@ -5,7 +5,7 @@
 #include "walker.hpp"
 
 const double g = -0.00981;  // in mm /ms^2
-const int NSTEPS = 100000;   // in ms
+const int NSTEPS = 6000;   // in ms
 const double DT = 0.1;     // in ms
 const double k = 1;         // in 1e-6 N/m
 const double K = 0.4;         // in 1e-6 N/m

@@ -3,12 +3,12 @@
 
 void initial_conditions(Walker & body)
 {
-  body.Rx = 60.;
+  body.Rx = 20.0;
   body.Ry = 1.0;       //in mm
   body.Rz = 0.0;       //in mm
   body.Vx = 0.01;       //in mm/ms = m/s
   body.Vy = 0.0;       //in mm/ms = m/s
-  body.Vz = -0.002;       //in mm/ms = m/s
+  body.Vz = 0.005;       //in mm/ms = m/s
 
   body.rad = 0.43;    //in mm
   body.mass = 1;      //in 1e-6 kg
@@ -65,6 +65,40 @@ void compute_force(Walker & body)
   if (delta > 0) {
   body.Fz -= K*delta;
   }
+
+  if ( std::sqrt(body.Vx*body.Vx + body.Vx*body.Vy) < 1  )
+    { //Left wall
+      double Lx = -60;
+      delta = body.rad - body.Rx + Lx;
+      if (delta > 0) {
+      body.Fx = K*delta;
+      }
+
+      //Right wall
+      Lx = 60;
+      delta = body.rad + body.Rx - Lx;
+
+      if (delta > 0) {
+      body.Fx -= K*delta;
+      }
+
+      //back wall
+      double Lz = -60;
+      delta = body.rad - body.Rz + Lz;
+      if (delta > 0) {
+      body.Fz += K*delta;
+      }
+
+      //front wall
+      Lz = 60;
+      delta = body.rad + body.Rz - Lz;
+
+      if (delta > 0) {
+      body.Fz -= K*delta;
+      }
+    }
+
+
 
 }
 
