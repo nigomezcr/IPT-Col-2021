@@ -8,19 +8,17 @@
 #include<sstream>
 
 // Geometry
-#define Lx 256
-#define Ly 64
-#define Lz 64
+#define Lx 200  // dx = 0.5mm
+#define Ly 200  // dy = 0.5mm
+#define Lz 30  // dz = 0.5mm, liquid: 20 cells, 10mm
 #define D 3
 #define Q 19
 
-// Obstacle
-#define Lx3 (Lx/3)
-#define Ly3 (Ly/3)
-#define Lz2 (Lz/2)
+// mini obstacle 8mm
 
-#define T_Lx3 (2*Lx/3)
-#define T_Ly3 (2*Ly/3)
+#define Lxm1 199
+#define Lym1 199
+#define Lzm1 29
 
 // 3D to 1D
 #define size (Lx*Ly*Lz*Q)
