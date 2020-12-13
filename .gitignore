@@ -7,3 +7,6 @@
 *.o
 *#
 *~
+
+#Ommit the Gnuplot fitting files
+*.log
