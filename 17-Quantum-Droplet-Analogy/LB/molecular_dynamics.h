@@ -5,10 +5,8 @@
 #include<cmath>
 #include<fstream>
 
-#include"vector3D.h"
-
-// Gravity
-const double G = 8.88769165499824e-10; //  AU3 / (d2 earthMass)
+#include "vector3D.h"
+#include "Fluids_LB_D3Q19.h"
 
 // PEFRL
 const double Zi = 0.1786178958448091e0;
@@ -22,21 +20,22 @@ const double coef2 = (1 - 2*(Xi+Zi));
 class Body{
     private:
         int N; Vector3D r, V, F; double m, R;
+
+        // Helpers
+        Vector3D g;
     public:
         Body(int =0);
-        void initialize(double x0, double y0, double z0, double Vx0, double Vy0, double Vz0, double m, double R);
-        void print(void);
-        void add_force(Vector3D dF){F += dF;}
+
+        void initialize(double x0, double y0, double z0, 
+            double Vx0, double Vy0, double Vz0, 
+            double m0, double R0
+        ){r.load(x0,y0,z0); V.load(Vx0,Vy0,Vz0); m = m0; R = R0;}
+        void add_force(Vector3D dF){F += dF - g;}
         void move_r(double dt, double coef){r += V*(dt*coef);}
         void move_v(double dt, double coef){V += F*(dt*coef/m);}
         void delete_f(void){F.load(0,0,0);}
-        double get_x(void){return r.x();} 
-        double get_y(void){return r.y();} 
-        double get_z(void){return r.z();} 
-        double get_vx(void){return V.x();} 
-        double get_vy(void){return V.y();} 
-        double get_fx(void){return F.x();} 
-        double get_fy(void){return F.y();}
+
+        double kinetic(void){return 0.5*m*vec3d::norm2(V);}
 
         friend class Collider;
 };
@@ -46,11 +45,8 @@ class Collider{
         int N;
     public:
         Collider(int =0);
-        void calculate_force_pair(Body &molecule1, Body &molecule2);
         void calculate_all_forces(Body *molecule);
         void move_with_pefrl(Body *molecule, double dt);
-        double energy(Body *molecule);
-        double angular_momentum(Body molecule, double x_axis=0.0, double y_axis=0.0, double z_axis=0.0);
 };
 
 #endif
