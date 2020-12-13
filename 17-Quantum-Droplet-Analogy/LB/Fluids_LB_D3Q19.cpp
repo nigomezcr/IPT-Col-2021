@@ -27,28 +27,26 @@ void Fluids::collide(void){
 }
 
 void Fluids::propagate(void){
-    unsigned int pos_new, x_pos, y_pos, z_pos, pos;
+    unsigned int streamed_pos, x, y, z, pos;
 
-    #pragma omp parallel for private(pos_new, x_pos, y_pos, z_pos, pos)
-    for(int ix=1; ix<Lxm1; ix++)
-        for(int iy=1; iy<Lym1; iy++)
-            for(int iz=1; iz<Lzm1; iz++){
-                pos_new = get_1D(ix, iy, iz);
-
-                for(int i=0; i<Q; i++){
-                    x_pos = ix + V[0][i]; y_pos = iy + V[1][i]; z_pos = iz + V[2][i];
-                    pos = get_1D(x_pos, y_pos, z_pos);
-
+    #pragma omp parallel for private(streamed_pos, x, y, z, pos)
+    for(int ix=0; ix<Lx; ix++)
+        for(int iy=0; iy<Ly; iy++)
+            for(int iz=0; iz<Lz; iz++){
+                pos = get_1D(ix, iy, iz);
+                for(int i=1; i<Q; i++){
+                    x = (Lx+ix+V[0][i])%Lx; y = (Ly+iy+V[1][i])%Ly; z = (Lz+iy+V[2][i])%Lz;
                     if( // Walls
-                        (ix == 1) || (iy == 1) || (iz == 1) || (ix == Lxm1) || (iy == Lym1) || (iz == Lzm1)
+                        (x == 0) || (y == 0) || (z == 0) || (x == Lxm1) || (y == Lym1) || (z == Lzm1)
                     ){
-                        f_new[pos + opposite_of[i]] = f_new[pos + i];
+                        f_new[pos + opposite_of[i]] = f[pos+i];
                     }
                     else{ // Fluid site
-                        f[pos + i] = f_new[pos_new + i];
+                        streamed_pos = get_1D(x, y, z);
+                        f[streamed_pos + i] = f_new[pos + 1];
                     }
                 }
-        }
+            }
 }
 
 void Fluids::impose_fields(double t){
@@ -133,8 +131,8 @@ void Fluids::save_2D(std::string filename, int x_pos){
                 Uy0 = Jy(pos)/rho0; Uz0 = Jz(pos)/rho0;
             }
 
-            //file << iy << '\t' << iz << '\t' << 4*Uy0 << '\t' << 4*Uz0 << '\n';
-            file << iy << '\t' << iz << '\t' /*<< Uy0 << '\t' << Uz0 << '\t'*/ << rho0 << '\n';
+            file << iy << '\t' << iz << '\t' << 4*Uy0 << '\t' << 4*Uz0 << '\t' << rho0 << '\n';
+            //file << iy << '\t' << iz << '\t' << Uy0 << '\t' << Uz0 << '\t' << rho0 << '\n';
         }
         file << '\n';
     }
