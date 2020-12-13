@@ -5,7 +5,7 @@ CACH = --tool=cachegrind
 C_STD = -std=c++11
 
 # Dependecies
-DEPS = LB_D3Q19.cpp Fluids_LB_D3Q19.cpp Diffusion_LB_D3Q19.cpp
+DEPS = LB_D3Q19.cpp Fluids_LB_D3Q19.cpp# vector3D.cpp molecular_dynamics.cpp
 
 all : main.o 
 

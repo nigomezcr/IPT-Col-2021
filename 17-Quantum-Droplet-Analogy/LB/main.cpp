@@ -11,7 +11,7 @@ int main(void){
 
     for(int t=0; t<TMAX; t++){
         Boltzmann.collide();
-        Boltzmann.impose_fields((double)t);
+        //Boltzmann.impose_fields((double)t);
         Boltzmann.propagate();
     }
 
