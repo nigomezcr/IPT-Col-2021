@@ -1,24 +1,21 @@
 #include"Fluids_LB_D3Q19.h"
-#include"Diffusion_LB_D3Q19.h"
+
+#define TMAX 100
 
 std::string filename(int t);
 
 int main(void){
-    //Fluids Boltzmann;
-    Diffusion Boltzmann;
-    int t_max = 1000;
-    double rho0 = 1.0, v = 0.1;
+    Fluids Boltzmann;
 
-    Boltzmann.initialize(rho0, 0, 0, 0);
-    Boltzmann.save_2D("initial.txt", Lz/2, v);
+    Boltzmann.initialize();
 
-    for(int t=0; t<t_max; t++){
+    for(int t=0; t<TMAX; t++){
         Boltzmann.collide();
-        //Boltzmann.impose_fields(v);
+        Boltzmann.impose_fields((double)t);
         Boltzmann.propagate();
     }
 
-    Boltzmann.save_2D("final.txt", Lz/2, v);
+    Boltzmann.save_2D("final.txt", Lx/2);
 
     return 0;
 }
