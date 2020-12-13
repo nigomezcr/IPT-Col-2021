@@ -4,8 +4,9 @@
 #include "LB_D3Q19.h"
 
 // Oscillation
-#define vel 1.0
-#define omega 1.0
+#define omega (2*M_PI*8.0417e-3)
+#define gravity 5.0700e-4
+#define vel (4.5*gravity)
 
 #undef f_eq
 
