@@ -33,7 +33,7 @@
 #define get_1D(ix, iy, iz) ((ix*x_mult) + (iy*y_mult) + (iz*z_mult))
 
 // LB constants
-#define tau 0.55
+#define tau 0.6
 #define Utau (1.0/tau)
 #define UmUtau (1.0-Utau)
 
