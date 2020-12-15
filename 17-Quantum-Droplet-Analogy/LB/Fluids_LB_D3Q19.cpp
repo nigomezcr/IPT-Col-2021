@@ -61,27 +61,43 @@ void Fluids::impose_fields(double t){
         }
 }
 
-void Fluids::initialize(void){
-    double rho0 = 1.0;
+// Initialize population using the Mei  et al. scheme
+void Fluids::initialize(Body *drops, int N){
+    #define STEPS 100
+    #define V0 0.0
+    #define rho0 1.0
+
+    // Load initial density
     for(int ix=0; ix<Lx; ix++)
         for(int iy=0; iy<Ly; iy++)
             for(int iz=0; iz<2*Lz/3; iz++){
                 unsigned int pos = get_1D(ix, iy, iz);
 
-                double rho_x = rho0 + gravity*std::sqrt(3.0)*(1.0 - iz/Lz);
-
-                for(int i=0; i<Q; i++) f[pos + i] = f_eq(rho_x, 0.0, 0.0, i);
+                for(int i=0; i<Q; i++) f[pos + i] = f_eq(rho0, V0, V0, i);
             }
 
+    #undef rho0
+    #define rho0 0.0
     for(int ix=0; ix<Lx; ix++)
         for(int iy=0; iy<Ly; iy++)
             for(int iz=2*Lz/3; iz<Lz; iz++){
                 unsigned int pos = get_1D(ix, iy, iz);
 
-                double rho_x = gravity*std::sqrt(3.0)*(1.0 - iz/Lz);
-
-                for(int i=0; i<Q; i++) f[pos + i] = f_eq(rho_x, 0.0, 0.0, i);
+                for(int i=0; i<Q; i++) f[pos + i] = f_eq(rho0, V0, V0, i);
             }
+    #undef rho0
+
+    // Collide & propagate just the density
+    for(int t=0; t<STEPS; t++){
+        for(unsigned int pos=0; pos<size; pos+=Q){
+            double rho0 = rho(pos);
+
+            for(int i=0; i<Q; i++) f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, V0, V0, i);
+        }
+        propagate(drops, N);
+    }
+    #undef V0
+    #undef STEPS
 }
 
 
