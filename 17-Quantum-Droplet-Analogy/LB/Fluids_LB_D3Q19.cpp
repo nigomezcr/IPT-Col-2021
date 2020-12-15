@@ -32,14 +32,14 @@ void Fluids::propagate(void){
                     unsigned int z = iz + V[2][i];
 
                     if( // Walls
-                        (0 < x < Lxm1) || (0 < y < Lym1) || (0 < z < Lzm1)
+                        (x > Lxm1) || (y > Lym1) || (z > Lzm1)
                         // || (is_fluid(drops, x, y, z, N) == false)
                     ){
                         f_new[pos + opposite_of[i]] = f[pos+i];
                     }
                     else{ // Fluid site
                         unsigned int streamed_pos = get_1D(x, y, z);
-                        f[streamed_pos + i] = f_new[pos + 1];
+                        f[streamed_pos + i] = f_new[pos + i];
                     }
                 }
             }
