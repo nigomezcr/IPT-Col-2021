@@ -33,16 +33,21 @@ void Fluids::propagate(void){
     for(int ix=0; ix<Lx; ix++)
         for(int iy=0; iy<Ly; iy++)
             for(int iz=0; iz<Lz; iz++){
-                pos = get_1D(ix, iy, iz);
-                for(int i=1; i<Q; i++){
-                    x = (Lx+ix+V[0][i])%Lx; y = (Ly+iy+V[1][i])%Ly; z = (Lz+iy+V[2][i])%Lz;
+                unsigned int pos = get_1D(ix, iy, iz);
+
+                for(int i=0; i<Q; i++){
+                    unsigned int x = ix + V[0][i];
+                    unsigned int y = iy + V[1][i];
+                    unsigned int z = iz + V[2][i];
+
                     if( // Walls
-                        (x == 0) || (y == 0) || (z == 0) || (x == Lxm1) || (y == Lym1) || (z == Lzm1)
+                        (0 < x < Lxm1) || (0 < y < Lym1) || (0 < z < Lzm1)
+                        // || (is_fluid(drops, x, y, z, N) == false)
                     ){
                         f_new[pos + opposite_of[i]] = f[pos+i];
                     }
                     else{ // Fluid site
-                        streamed_pos = get_1D(x, y, z);
+                        unsigned int streamed_pos = get_1D(x, y, z);
                         f[streamed_pos + i] = f_new[pos + 1];
                     }
                 }
