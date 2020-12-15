@@ -1,29 +1,20 @@
 #include "Fluids_LB_D3Q19.h"
 
 void Fluids::collide(void){
-    double rho0, Ux0, Uy0, Uz0, U2; unsigned int pos;
+    for(unsigned int pos=0; pos<size; pos+=Q){
+        double rho0 = rho(pos);
 
-    #pragma omp parallel for private(pos, rho0, Ux0, Uy0, Uz0, U2)
-    for(int ix=0; ix<Lx; ix++)
-        for(int iy=0; iy<Ly; iy++)
-            for(int iz=0; iz<Lz; iz++){
-                pos = get_1D(ix, iy, iz);
+        double Ux = Jx(pos)/rho0;
+        double Uy = Jy(pos)/rho0;
+        double Uz = (Jz(pos)/rho0) - gravity*(1.0 - (pos%z_mult)/Lz);
 
-                rho0 = rho(pos);
+        double U2 = Ux*Ux + Uy*Uy + Uz*Uz;
 
-                if(rho0 != 0.0){
-                    Ux0 = Jx(pos)/rho0, Uy0 = Jy(pos)/rho0, Uz0 = (Jz(pos)/rho0)-gravity;
-
-                    U2 = Ux0*Ux0 + Uy0*Uy0 + Uz0*Uz0;
-
-                    for(int i=0; i<Q; i++){
-                        double UdotVi = Ux0*V[0][i] + Uy0*V[1][i] + Uz0*V[2][i];
-                        f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, UdotVi, U2, i);
-                    }
-                }
-                else
-                    for(int i=0; i<Q; i++) f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, 0.0, 0.0, i);
-            }
+        for(int i=0; i<Q; i++){
+            double UdotVi = Ux*V[0][i] + Uy*V[1][i] + Uz*V[2][i];
+            f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, UdotVi, U2, i);
+        }
+    }
 }
 
 void Fluids::propagate(void){
