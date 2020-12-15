@@ -66,26 +66,25 @@ void Fluids::impose_fields(double t){
 }
 
 void Fluids::initialize(void){
-    double U2 = 0, UdotVi = 0, rho0 = 1.0;
+    double rho0 = 1.0;
     for(int ix=0; ix<Lx; ix++)
         for(int iy=0; iy<Ly; iy++)
             for(int iz=0; iz<2*Lz/3; iz++){
                 unsigned int pos = get_1D(ix, iy, iz);
 
-                if( (ix == 0) || (iy == 0) || (iz == 0) ) rho0 = 0.0;
-                else rho0 = 1.0;
+                double rho_x = rho0 + gravity*std::sqrt(3.0)*(1.0 - iz/Lz);
 
-                for(int i=0; i<Q; i++) f[pos + i] = f_eq(rho0, UdotVi, U2, i);
+                for(int i=0; i<Q; i++) f[pos + i] = f_eq(rho_x, 0.0, 0.0, i);
             }
 
-    rho0 = 0;
     for(int ix=0; ix<Lx; ix++)
         for(int iy=0; iy<Ly; iy++)
             for(int iz=2*Lz/3; iz<Lz; iz++){
                 unsigned int pos = get_1D(ix, iy, iz);
-                double U2 = 0, UdotVi = 0;
 
-                for(int i=0; i<Q; i++) f[pos + i] = f_eq(rho0, UdotVi, U2, i);
+                double rho_x = gravity*std::sqrt(3.0)*(1.0 - iz/Lz);
+
+                for(int i=0; i<Q; i++) f[pos + i] = f_eq(rho_x, 0.0, 0.0, i);
             }
 }
 
