@@ -9,35 +9,36 @@ void Fluids::collide(double t, Body *drops, int N){
                 unsigned int pos = get_1D(ix, iy, iz);
 
                 double rho0 = rho(pos);
+                double Urho0 = 1.0/rho0;
 
-                double Ux = Jx(pos)/rho0;
-                double Uy = Jy(pos)/rho0;
-                double Uz = (Jz(pos)/rho0) - gravity/2.0;
+                double Ux = Jx(pos)*Urho0;
+                double Uy = Jy(pos)*Urho0;
+                double Uz = (Jz(pos)*Urho0) - gravity/2.0;
 
                 double Fx = 0.0;
                 double Fy = 0.0;
-                double Fz = -gravity;
+                double Fz = -gravity*rho0;
 
                 if(iz < 3){
-                    Uz += g_cos_t;
-                    Fz += g_cos_t/(2.0*rho0);
+                    Uz += 0.5*g_cos_t*Urho0;
+                    Fz += g_cos_t*rho0;
                 }
 
                 if(is_fluid(drops, ix, iy, iz, N) == false)
                     for(int i=0; i<N; i++){
-                        Ux += drops[i].V[0];
-                        Uy += drops[i].V[1];
-                        Uz += drops[i].V[2];
+                        Ux += drops[i].V[0]*0.5*Urho0;
+                        Uy += drops[i].V[1]*0.5*Urho0;
+                        Uz += drops[i].V[2]*0.5*Urho0;
 
-                        Fx += drops[i].F[0];
-                        Fy += drops[i].F[1];
-                        Fz += drops[i].F[2];
+                        Fx += drops[i].F[0]*rho0;
+                        Fy += drops[i].F[1]*rho0;
+                        Fz += drops[i].F[2]*rho0;
                     }
 
                 double U2 = Ux*Ux + Uy*Uy + Uz*Uz;
-                double FdotU = Ux*Fx + Uy*Fy + Uz*Fz;
+                double UdotF = Ux*Fx + Uy*Fy + Uz*Fz;
 
-                double S0 = UmU2tau*(w[0]/c_s2)*(-FdotU);
+                double S0 = UmU2tau*(w[0]/c_s2)*(-UdotF);
 
                 f_new[pos] = UmUtau*f[pos] + Utau*f_eq(rho0, 0.0, U2, 0) + S0;
 
@@ -45,7 +46,7 @@ void Fluids::collide(double t, Body *drops, int N){
                     double UdotVi = Ux*V[0][i] + Uy*V[1][i] + Uz*V[2][i];
                     double FdotVi = Fx*V[0][i] + Fy*V[1][i] + Fz*V[2][i];
 
-                    double Si = UmU2tau*(w[i]/c_s2)*( FdotVi + (FdotVi*UdotVi - c_s2*UdotVi)/c_s2 );
+                    double Si = UmU2tau*(w[i]/c_s2)*( FdotVi + (FdotVi*UdotVi - c_s2*UdotF)/c_s2 );
 
                     f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, UdotVi, U2, i) + Si;
                 }
