@@ -2,7 +2,7 @@
 
 Body::Body(int n){
     N = n;
-    g.load(0,0,9800); // mm per second squared
+    g.load(0,0,6.3375e-05); // computational dl per computational dt squared
 }
 
 Collider::Collider(int n){
@@ -10,9 +10,11 @@ Collider::Collider(int n){
 }
 
 void Collider::calculate_all_forces(Body *molecule){
+    Vector3D zero;
     for(int i=0; i<N; i++){
         molecule[i].delete_f();
         // molecule[i].interact_with_lb()
+        molecule[i].add_force(zero);
     }
 }
 

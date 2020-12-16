@@ -30,14 +30,17 @@ class Body{
             double Vx0, double Vy0, double Vz0, 
             double m0, double R0
         ){r.load(x0,y0,z0); V.load(Vx0,Vy0,Vz0); m = m0; R = R0;}
-        void add_force(Vector3D dF){F += dF - g;}
+        void add_force(Vector3D dF){F += dF - m*g;}
         void move_r(double dt, double coef){r += V*(dt*coef);}
         void move_v(double dt, double coef){V += F*(dt*coef/m);}
         void delete_f(void){F.load(0,0,0);}
 
+        double get_z(void){return r[2];}
+
         double kinetic(void){return 0.5*m*vec3d::norm2(V);}
 
         friend class Collider;
+        friend class Fluids;
 };
 
 class Collider{

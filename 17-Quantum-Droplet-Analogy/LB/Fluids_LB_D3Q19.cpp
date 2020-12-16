@@ -1,26 +1,59 @@
 #include "Fluids_LB_D3Q19.h"
 
-void Fluids::collide(void){
-    for(unsigned int pos=0; pos<size; pos+=Q){
-        double rho0 = rho(pos);
+void Fluids::collide(double t, Body *drops, int N){
+    double vibration, g_cos_t = gamma*std::cos(omega*t);
 
-        double Ux = Jx(pos)/rho0;
-        double Uy = Jy(pos)/rho0;
-        double Uz = (Jz(pos)/rho0) - gravity*(1.0 - (pos%z_mult)/Lz);
+    for(int ix=0; ix<Lx; ix++)
+        for(int iy=0; iy<Ly; iy++){
+            for(int iz=0; iz<Lz; iz++){
+                unsigned int pos = get_1D(ix, iy, iz);
 
-        double U2 = Ux*Ux + Uy*Uy + Uz*Uz;
+                double rho0 = rho(pos);
 
-        for(int i=0; i<Q; i++){
-            double UdotVi = Ux*V[0][i] + Uy*V[1][i] + Uz*V[2][i];
-            f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, UdotVi, U2, i);
+                double Ux = Jx(pos)/rho0;
+                double Uy = Jy(pos)/rho0;
+                double Uz = (Jz(pos)/rho0) - gravity/2.0;
+
+                double Fx = 0.0;
+                double Fy = 0.0;
+                double Fz = -gravity;
+
+                if(iz < 3){
+                    Uz += g_cos_t;
+                    Fz += g_cos_t/(2.0*rho0);
+                }
+
+                if(is_fluid(drops, ix, iy, iz, N) == false)
+                    for(int i=0; i<N; i++){
+                        Ux += drops[i].V[0];
+                        Uy += drops[i].V[1];
+                        Uz += drops[i].V[2];
+
+                        Fx += drops[i].F[0];
+                        Fy += drops[i].F[1];
+                        Fz += drops[i].F[2];
+                    }
+
+                double U2 = Ux*Ux + Uy*Uy + Uz*Uz;
+                double FdotU = Ux*Fx + Uy*Fy + Uz*Fz;
+
+                double S0 = UmU2tau*(w[0]/c_s2)*(-FdotU);
+
+                f_new[pos] = UmUtau*f[pos] + Utau*f_eq(rho0, 0.0, U2, 0) + S0;
+
+                for(int i=1; i<Q; i++){
+                    double UdotVi = Ux*V[0][i] + Uy*V[1][i] + Uz*V[2][i];
+                    double FdotVi = Fx*V[0][i] + Fy*V[1][i] + Fz*V[2][i];
+
+                    double Si = UmU2tau*(w[i]/c_s2)*( FdotVi + (FdotVi*UdotVi - c_s2*UdotVi)/c_s2 );
+
+                    f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, UdotVi, U2, i) + Si;
+                }
+            }
         }
-    }
 }
 
-void Fluids::propagate(void){
-    unsigned int streamed_pos, x, y, z, pos;
-
-    #pragma omp parallel for private(streamed_pos, x, y, z, pos)
+void Fluids::propagate(Body *drops, int N){
     for(int ix=0; ix<Lx; ix++)
         for(int iy=0; iy<Ly; iy++)
             for(int iz=0; iz<Lz; iz++){
@@ -31,9 +64,9 @@ void Fluids::propagate(void){
                     unsigned int y = iy + V[1][i];
                     unsigned int z = iz + V[2][i];
 
-                    if( // Walls
+                    if( // Walls & drops
                         (x > Lxm1) || (y > Lym1) || (z > Lzm1)
-                        // || (is_fluid(drops, x, y, z, N) == false)
+                         || (is_fluid(drops, x, y, z, N) == false)
                     ){
                         f_new[pos + opposite_of[i]] = f[pos+i];
                     }
@@ -45,20 +78,20 @@ void Fluids::propagate(void){
             }
 }
 
-void Fluids::impose_fields(double t){
-    unsigned int pos; double rho0, v = vel*std::sin(omega*t), v2 = v*v;
+bool Fluids::is_fluid(Body *drops, int x, int y, int z, int N){
+    // For now I'll assume that all drops have the same radius
+    double R = drops[0].R + dl, r = 4.0*R/5.0, R2 = R*R, r2 = r*r;
 
-    #pragma omp parallel for private(pos, rho0) public(v)
-    for(int ix=0; ix<Lx; ix++)
-        for(int iy=0; iy<Ly; iy++){ // Oscillation in z
-                pos = get_1D(iy, iy, 1);
-
-                rho0 = rho(pos);
-                for(int i=0; i<Q; i++){
-                    double UdotVi = v*V[2][i];
-                    f_new[pos + i] = f_eq(rho0, UdotVi, v2, i);
-                }
-        }
+    for(int i=0; i<N; i++){
+        double value = (x-drops[i].r[0])*(x-drops[i].r[0])
+            + (y-drops[i].r[1])*(y-drops[i].r[1])
+            + (z-drops[i].r[2])*(z-drops[i].r[2]);
+        if(
+            (value <= R2)
+        )
+            return false;
+    }
+    return true;
 }
 
 // Initialize population using the Mei  et al. scheme
@@ -109,14 +142,10 @@ void Fluids::save(std::string filename){
                 unsigned int pos = get_1D(ix, iy, iz);
 
                 double rho0 = rho(pos);
-                double Ux0 = 0, Uy0 = 0, Uz0 = 0;
+                double Ux = Jx(pos)/rho0, Uy = Jy(pos)/rho0, Uz = Jz(pos)/rho0;
 
-                if(rho0 != 0.0){
-                    Ux0 = Jx(pos)/rho0; Uy0 = Jy(pos)/rho0; Uz0 = Jz(pos)/rho0;
-                }
-
-                file << ix << '\t' << iy << '\t' << iz << '\t' << 4*Ux0 << '\t'
-                << 4*Uy0 << '\t' << 4*Uz0 << '\n';
+                file << ix << ',' << iy << ',' << iz << ',' << 4*Ux << ','
+                << 4*Uy << ',' << 4*Uz << '\n';
             }
             file << '\n';
         }
@@ -130,19 +159,15 @@ void Fluids::save(std::string filename){
 void Fluids::save_2D(std::string filename, int x_pos){
     std::ofstream file(filename);
 
-    for(int iy=0; iy<Ly; iy+=4){
+    for(int iy=0; iy<Ly; iy++){
         for(int iz=0; iz<Lz; iz++){
             unsigned int pos = get_1D(x_pos, iy, iz);
 
             double rho0 = rho(pos);
-            double Uy0 = 0, Uz0 = 0;
+            double Uy = Jy(pos)/rho0;
+            double Uz = Jz(pos)/rho0;
 
-            if(rho0 != 0.0){
-                Uy0 = Jy(pos)/rho0; Uz0 = Jz(pos)/rho0;
-            }
-
-            file << iy << '\t' << iz << '\t' << 4*Uy0 << '\t' << 4*Uz0 << '\t' << rho0 << '\n';
-            //file << iy << '\t' << iz << '\t' << Uy0 << '\t' << Uz0 << '\t' << rho0 << '\n';
+            file << iy << ',' << iz << ',' << 4*Uy << ',' << 4*Uz << ',' << rho0 << '\n';
         }
         file << '\n';
     }
