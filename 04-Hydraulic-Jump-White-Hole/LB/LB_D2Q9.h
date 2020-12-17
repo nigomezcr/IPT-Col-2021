@@ -9,7 +9,7 @@
 
 // Geometry
 #define Lx 256
-#define Ly 64
+#define Ly 10
 #define D 2
 #define Q 9
 

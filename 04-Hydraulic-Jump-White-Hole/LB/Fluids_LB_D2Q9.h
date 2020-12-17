@@ -11,10 +11,12 @@
 class Fluids : public LatticeBoltzmann{
 private:
   int opposite_of[9] = {0, 3, 4, 1, 2, 7, 8, 5, 6};
+  unsigned int R_jet;
+  unsigned int H_water;
 public:
   void collide(void);
   void propagate(void);
-  void initialize(double rho0, double Ux0, double Uy0, double Uz0);
+  void initialize(double rho0, double Ux0, double Uy0, double Uz0, double R0, double H0);
   void impose_fields(double v);
   double detector(int x_pos);
   void save(std::string filename, double v);
