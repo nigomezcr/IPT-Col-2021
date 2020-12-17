@@ -8,8 +8,8 @@
 #include<sstream>
 
 // Geometry
-#define Lx 280  // dx = 0.25mm
-#define Ly 280  // dy = 0.25mm
+#define Lx 100  // dx = 0.25mm
+#define Ly 100  // dy = 0.25mm
 #define Lz 16  // dz = 0.25mm
 #define D 3
 #define Q 19
@@ -35,9 +35,13 @@
 #define get_1D(ix, iy, iz) ((ix*x_mult) + (iy*y_mult) + (iz*z_mult))
 
 // LB constants
-#define tau 0.55
-#define Utau 1.81818181818182
-#define UmUtau (-0.81818181818182)
+// #define tau 0.55
+// #define Utau 1.81818181818182
+// #define UmUtau (-0.81818181818182)
+
+#define tau 0.6
+#define Utau 1.66666666666667
+#define UmUtau (-0.66666666666667)
 
 #define c_s 0.57735 // speed of sound: 1/sqrt(3)
 #define c_s2 0.333333333333333333

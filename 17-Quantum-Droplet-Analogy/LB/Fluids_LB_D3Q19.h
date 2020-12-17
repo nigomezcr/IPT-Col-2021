@@ -7,8 +7,12 @@
 class Body;
 
 // Oscillation
-#define omega (2*M_PI*1.3403e-03)
-#define gravity 7.0417e-6
+//#define omega (2*M_PI*1.3403e-3) // tau=0.55
+#define omega (2*M_PI*2.6806e-3) // tau=0.6
+
+//#define gravity 7.0417e-6 // tau = 0.55
+#define gravity 2.8167e-5 // tau = 0.6
+
 #define gamma (2*gravity)
 
 #define UmU2tau (1.0 - 0.5*Utau)
