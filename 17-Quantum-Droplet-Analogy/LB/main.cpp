@@ -2,11 +2,10 @@
 #include "molecular_dynamics.h"
 
 #define TMAX 1000
-#define TEQ 10
 #define N 1
 #define dt 1.6083e-4
 
-#define R 1.5
+#define R 6.0
 #define m (4.0*M_PI*R*R*R/3.0)
 
 std::string filename(int t);
@@ -15,8 +14,7 @@ int main(void){
     std::cout << "Simulation parameters:\n" 
         << "Lx: " << Lx << "\nLy: " << Ly << '\n'
         << "Lz: " << Lz << "\nTau: " << tau << '\n' 
-        << "Time steps equilibrium: " << TEQ << '\n'
-        << "Time steps interaction: " << TMAX << '\n' << std::endl;
+        << "Time steps: " << TMAX << '\n' << std::endl;
 
     Fluids Boltzmann;
     Body *Drops = new Body[N];
@@ -27,28 +25,19 @@ int main(void){
     double r[N*3], v[N*3], F[N*3];
 
 
-    Drops[0].initialize(Lx/4.0, Ly/4.0, Lz + 1.4*R, 0,0,0, m, R);
+    Drops[0].initialize(Lx/2.0, Ly/2.0, Lz + 1.4*R, 0,0,0, m, R);
 
     Boltzmann.initialize(r, R, N);
     Boltzmann.save_2D("initial.csv", Lx/2);
 
     std::cout << "LB initialized" << std::endl;
 
-    for(int t=0; t<TEQ; t++){
-        Boltzmann.collide((double) t, r, v, F, R, N);
-        Boltzmann.propagate(r, R, N);
-    }
-
-    Boltzmann.save_2D("equilibrium.csv", Lx/2);
-
-    std::cout << "LB in equilibrium" << std::endl;
-
-
     std::ofstream file("drop.csv");
 
     for(int t=0; t<TMAX; t++){
         Boltzmann.collide((double) t, r, v, F, R, N);
         Boltzmann.propagate(r, R, N);
+
         Newton.move_with_pefrl(Drops, 1.0, Boltzmann);
 
         for(int i=0; i<N; i++){

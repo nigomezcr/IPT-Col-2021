@@ -22,7 +22,7 @@ void Fluids::collide(const double t, const double *r, const double *v, const dou
                 // Is Fluid calculation
                 bool is_fluid = true;
 
-                for(int i=0; i<N; i++){
+                for(int i=0; i<N; i+=3){
                     double value = (ix-r[i])*(ix-r[i]) + (iy-r[i+1])*(iy-r[i+1]) + (iz-r[i+2])*(iz-r[i+2]);
                     if(
                         (value <= R2)
@@ -34,7 +34,7 @@ void Fluids::collide(const double t, const double *r, const double *v, const dou
                 // ======
 
                 if(is_fluid == false)
-                    for(int i=0; i<N; i++){
+                    for(int i=0; i<N; i+=3){
                         Ux += v[i]*0.5*Urho0;
                         Uy += v[i+1]*0.5*Urho0;
                         Uz += v[i+2]*0.5*Urho0;
@@ -224,7 +224,7 @@ void Fluids::propagate(const double *r, const double R, int N){
                     // Is Fluid calculation
                     bool is_fluid = true;
 
-                    for(int i=0; i<N; i++){
+                    for(int i=0; i<N; i+=3){
                         double value = (x-r[i])*(x-r[i]) + (y-r[i+1])*(y-r[i+1]) + (z-r[i+2])*(z-r[i+2]);
                         if(
                             (value <= R2)
