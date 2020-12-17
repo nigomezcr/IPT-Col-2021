@@ -8,17 +8,19 @@
 #include<sstream>
 
 // Geometry
-#define Lx 200  // dx = 0.5mm
-#define Ly 200  // dy = 0.5mm
-#define Lz 30  // dz = 0.5mm, liquid: 20 cells, 10mm
+#define Lx 280  // dx = 0.25mm
+#define Ly 280  // dy = 0.25mm
+#define Lz 16  // dz = 0.25mm
 #define D 3
 #define Q 19
 
+#define dl 0.25
+
 // mini obstacle 8mm
 
-#define Lxm1 199
-#define Lym1 199
-#define Lzm1 29
+#define Lxm1 (Lx-1)
+#define Lym1 (Ly-1)
+#define Lzm1 (Lz-1)
 
 // 3D to 1D
 #define size (Lx*Ly*Lz*Q)
@@ -34,8 +36,12 @@
 
 // LB constants
 #define tau 0.55
-#define Utau (1.0/tau)
-#define UmUtau (1.0-Utau)
+#define Utau 1.81818181818182
+#define UmUtau (-0.81818181818182)
+
+#define c_s 0.57735 // speed of sound: 1/sqrt(3)
+#define c_s2 0.333333333333333333
+#define c_s4 (c_s2*c_s2)
 
 class LatticeBoltzmann{
     protected:

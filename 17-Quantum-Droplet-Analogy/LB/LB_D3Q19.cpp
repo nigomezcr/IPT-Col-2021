@@ -37,118 +37,94 @@ LatticeBoltzmann::~LatticeBoltzmann(){
 
 /* System density */
 double LatticeBoltzmann::rho(int position){
-    double r = 0; int i = 0;
+    double r = 0;
 
-    r += f[position + i]; i++;
+    r += f[position + 0];
 
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
+    r += f[position + 1];
+    r += f[position + 2];
+    r += f[position + 3];
+    r += f[position + 4];
+    r += f[position + 5];
+    r += f[position + 6];
 
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
+    r += f[position + 7];
+    r += f[position + 8];
+    r += f[position + 9];
+    r += f[position + 10];
+    r += f[position + 11];
+    r += f[position + 12];
 
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i]; i++;
-    r += f[position + i];
+    r += f[position + 13];
+    r += f[position + 14];
+    r += f[position + 15];
+    r += f[position + 16];
+    r += f[position + 17];
+    r += f[position + 18];
 
     return r;
 }
 
 /* Velocity field in the x axis, times the density. (i.e., U_x * rho) */
 double LatticeBoltzmann::Jx(int position){
-    double J_x = 0; int i = 1;
+    double J_x = 0;
 
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
+    J_x += f[position + 1];
+    J_x -= f[position + 2];
 
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
+    J_x += f[position + 7];
+    J_x -= f[position + 8];
+    J_x += f[position + 9];
+    J_x -= f[position + 10];
 
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i]; i++;
-    J_x += f[position + i] * V[0][i];
+    J_x += f[position + 13];
+    J_x -= f[position + 14];
+    J_x += f[position + 15];
+    J_x -= f[position + 16];
 
     return J_x;
 }
 
 /* Velocity field in the y axis, times the density. (i.e., U_y * rho) */
 double LatticeBoltzmann::Jy(int position){
-    double J_y = 0; int j = 1;
+    double J_y = 0;
 
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
+    J_y += f[position + 3];
+    J_y -= f[position + 4];
 
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
+    J_y += f[position + 7];
+    J_y -= f[position + 8];
 
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j]; j++;
-    J_y += f[position+j] * V[1][j];
+    J_y += f[position + 11];
+    J_y -= f[position + 12];
+    J_y -= f[position + 13];
+    J_y += f[position + 14];
+
+    J_y += f[position + 17];
+    J_y -= f[position + 18];
 
     return J_y;
 }
 
 /* Velocity field in the z axis, times the density. (i.e., U_z * rho) */
 double LatticeBoltzmann::Jz(int position){
-    double J_z = 0; int k = 1;
+    double J_z = 0;
 
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
+    J_z += f[position + 5];
+    J_z -= f[position + 6];
 
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
+    J_z += f[position + 9];
+    J_z -= f[position + 10];
+    J_z += f[position + 11];
+    J_z -= f[position + 12];
 
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k]; k++;
-    J_z += f[position+k] * V[2][k];
+    J_z -= f[position + 15];
+    J_z += f[position + 16];
+    J_z -= f[position + 17];
+    J_z += f[position + 18];
 
     return J_z;
 }
-
 // Using f_new
 double LatticeBoltzmann::Jx_new(int ix, int iy, int iz){
     double J_x = 0; int pos = get_1D(ix, iy, iz);
