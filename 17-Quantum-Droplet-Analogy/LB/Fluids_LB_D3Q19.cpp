@@ -1,7 +1,7 @@
 #include "Fluids_LB_D3Q19.h"
 
 void Fluids::collide(double t, Body *drops, int N){
-    double vibration, g_cos_t = gamma*std::cos(omega*t);
+    double g_cos_t = gamma*std::cos(omega*t);
 
     for(int ix=0; ix<Lx; ix++)
         for(int iy=0; iy<Ly; iy++){
@@ -13,16 +13,11 @@ void Fluids::collide(double t, Body *drops, int N){
 
                 double Ux = Jx(pos)*Urho0;
                 double Uy = Jy(pos)*Urho0;
-                double Uz = (Jz(pos)*Urho0) - gravity/2.0;
+                double Uz = (Jz(pos)*Urho0) + 0.5*g_cos_t*Urho0;
 
                 double Fx = 0.0;
                 double Fy = 0.0;
-                double Fz = -gravity*rho0;
-
-                if(iz < 3){
-                    Uz += 0.5*g_cos_t*Urho0;
-                    Fz += g_cos_t*rho0;
-                }
+                double Fz = g_cos_t*rho0;
 
                 if(is_fluid(drops, ix, iy, iz, N) == false)
                     for(int i=0; i<N; i++){
@@ -67,7 +62,7 @@ void Fluids::propagate(Body *drops, int N){
 
                     if( // Walls & drops
                         (x > Lxm1) || (y > Lym1) || (z > Lzm1)
-                         || (is_fluid(drops, x, y, z, N) == false)
+                        //|| (is_fluid(drops, x, y, z, N) == false)
                     ){
                         f_new[pos + opposite_of[i]] = f[pos+i];
                     }
@@ -168,7 +163,7 @@ void Fluids::save_2D(std::string filename, int x_pos){
             double Uy = Jy(pos)/rho0;
             double Uz = Jz(pos)/rho0;
 
-            file << iy << ',' << iz << ',' << 4*Uy << ',' << 4*Uz << ',' << rho0 << '\n';
+            file << iy << ',' << iz << ',' << 10*Uy << ',' << 10*Uz << ',' << rho0 << '\n';
         }
         file << '\n';
     }

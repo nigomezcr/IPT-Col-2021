@@ -7,10 +7,9 @@
 class Body;
 
 // Oscillation
-//#define omega (2*M_PI*2.0104e-03)
-#define omega (2*M_PI/6.0)
-#define gravity 6.3375e-05
-#define gamma (10*gravity)
+#define omega (2*M_PI*1.3403e-03)
+#define gravity 7.0417e-6
+#define gamma (2*gravity)
 
 #define UmU2tau (1.0 - 0.5*Utau)
 
@@ -31,6 +30,8 @@ class Fluids : public LatticeBoltzmann{
         void save_2D(std::string filename, int x_pos);
 
         bool is_fluid(Body *drops, int x, int y, int z, int N);
+
+        friend class Collider;
 };
 
 #endif

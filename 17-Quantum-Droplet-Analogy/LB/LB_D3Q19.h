@@ -8,8 +8,8 @@
 #include<sstream>
 
 // Geometry
-#define Lx 20  // dx = 0.25mm
-#define Ly 20  // dy = 0.25mm
+#define Lx 280  // dx = 0.25mm
+#define Ly 280  // dy = 0.25mm
 #define Lz 16  // dz = 0.25mm
 #define D 3
 #define Q 19
@@ -35,12 +35,12 @@
 #define get_1D(ix, iy, iz) ((ix*x_mult) + (iy*y_mult) + (iz*z_mult))
 
 // LB constants
-#define tau 0.6
-#define Utau 1.6666666666
-#define UmUtau (-0.6666666666)
+#define tau 0.55
+#define Utau 1.81818181818182
+#define UmUtau (-0.81818181818182)
 
 #define c_s 0.57735 // speed of sound: 1/sqrt(3)
-#define c_s2 (c_s*c_s)
+#define c_s2 0.333333333333333333
 #define c_s4 (c_s2*c_s2)
 
 class LatticeBoltzmann{
