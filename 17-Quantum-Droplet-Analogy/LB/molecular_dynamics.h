@@ -8,6 +8,8 @@
 #include "vector3D.h"
 #include "Fluids_LB_D3Q19.h"
 
+class Fluids;
+
 // PEFRL
 const double Zi = 0.1786178958448091e0;
 const double Lambda = 0.2123418310626054*(-1);
@@ -35,6 +37,8 @@ class Body{
         void move_v(double dt, double coef){V += F*(dt*coef/m);}
         void delete_f(void){F.load(0,0,0);}
 
+        double get_x(void){return r[0];}
+        double get_y(void){return r[1];}
         double get_z(void){return r[2];}
 
         double kinetic(void){return 0.5*m*vec3d::norm2(V);}
@@ -48,8 +52,9 @@ class Collider{
         int N;
     public:
         Collider(int =0);
-        void calculate_all_forces(Body *molecule);
-        void move_with_pefrl(Body *molecule, double dt);
+        void calculate_force(Body &molecule, Fluids &boltzmann);
+        void calculate_all_forces(Body *molecule, Fluids &boltzmann);
+        void move_with_pefrl(Body *molecule, double dt, Fluids &boltzmann);
 };
 
 #endif
