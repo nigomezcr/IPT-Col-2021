@@ -19,7 +19,24 @@ void Fluids::collide(double t, Body *drops, int N){
                 double Fy = 0.0;
                 double Fz = g_cos_t*rho0;
 
-                if(is_fluid(drops, ix, iy, iz, N) == false)
+                // Is Fluid calculation
+                bool is_fluid = true;
+                double R = drops[0].R + dl, R2 = R*R; // For now I'll assume that all drops have the same radius
+
+                for(int i=0; i<N; i++){
+                    double value = (ix-drops[i].r[0])*(ix-drops[i].r[0])
+                        + (iy-drops[i].r[1])*(iy-drops[i].r[1])
+                        + (iz-drops[i].r[2])*(iz-drops[i].r[2]);
+                    if(
+                        (value <= R2)
+                    ){
+                        is_fluid = false;
+                        break;
+                    }
+                }
+                // ======
+
+                if(is_fluid == false)
                     for(int i=0; i<N; i++){
                         Ux += drops[i].V[0]*0.5*Urho0;
                         Uy += drops[i].V[1]*0.5*Urho0;
@@ -37,13 +54,29 @@ void Fluids::collide(double t, Body *drops, int N){
 
                 f_new[pos] = UmUtau*f[pos] + Utau*f_eq(rho0, 0.0, U2, 0) + S0;
 
-                for(int i=1; i<Q; i++){
+                for(int i=1; i<Q;){
                     double UdotVi = Ux*V[0][i] + Uy*V[1][i] + Uz*V[2][i];
                     double FdotVi = Fx*V[0][i] + Fy*V[1][i] + Fz*V[2][i];
 
                     double Si = UmU2tau*(w[i]/c_s2)*( FdotVi + (FdotVi*UdotVi - c_s2*UdotF)/c_s2 );
 
-                    f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, UdotVi, U2, i) + Si;
+                    f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, UdotVi, U2, i) + Si; i++;
+
+
+                    UdotVi = Ux*V[0][i] + Uy*V[1][i] + Uz*V[2][i];
+                    FdotVi = Fx*V[0][i] + Fy*V[1][i] + Fz*V[2][i];
+
+                    Si = UmU2tau*(w[i]/c_s2)*( FdotVi + (FdotVi*UdotVi - c_s2*UdotF)/c_s2 );
+
+                    f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, UdotVi, U2, i) + Si; i++;
+
+
+                    UdotVi = Ux*V[0][i] + Uy*V[1][i] + Uz*V[2][i];
+                    FdotVi = Fx*V[0][i] + Fy*V[1][i] + Fz*V[2][i];
+
+                    Si = UmU2tau*(w[i]/c_s2)*( FdotVi + (FdotVi*UdotVi - c_s2*UdotF)/c_s2 );
+
+                    f_new[pos + i] = UmUtau*f[pos + i] + Utau*f_eq(rho0, UdotVi, U2, i) + Si; i++;
                 }
             }
         }
@@ -60,9 +93,25 @@ void Fluids::propagate(Body *drops, int N){
                     unsigned int y = iy + V[1][i];
                     unsigned int z = iz + V[2][i];
 
+                    // Is Fluid calculation
+                    bool is_fluid = true;
+                    double R = drops[0].R + dl, R2 = R*R; // For now I'll assume that all drops have the same radius
+
+                    for(int i=0; i<N; i++){
+                        double value = (x-drops[i].r[0])*(x-drops[i].r[0])
+                            + (y-drops[i].r[1])*(y-drops[i].r[1])
+                            + (z-drops[i].r[2])*(z-drops[i].r[2]);
+                        if(
+                            (value <= R2)
+                        ){
+                            is_fluid = false;
+                            break;
+                        }
+                    }
+                    // ======
+
                     if( // Walls & drops
-                        (x > Lxm1) || (y > Lym1) || (z > Lzm1)
-                        //|| (is_fluid(drops, x, y, z, N) == false)
+                        (x > Lxm1) || (y > Lym1) || (z > Lzm1) || (is_fluid == false)
                     ){
                         f_new[pos + opposite_of[i]] = f[pos+i];
                     }
@@ -74,7 +123,7 @@ void Fluids::propagate(Body *drops, int N){
             }
 }
 
-bool Fluids::is_fluid(Body *drops, int x, int y, int z, int N){
+bool Fluids::is_it_fluid(Body *drops, int x, int y, int z, int N){
     // For now I'll assume that all drops have the same radius
     double R = drops[0].R + dl, r = 4.0*R/5.0, R2 = R*R, r2 = r*r;
 

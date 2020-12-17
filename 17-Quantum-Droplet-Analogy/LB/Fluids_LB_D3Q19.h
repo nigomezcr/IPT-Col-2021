@@ -29,7 +29,7 @@ class Fluids : public LatticeBoltzmann{
         void save(std::string filename);
         void save_2D(std::string filename, int x_pos);
 
-        bool is_fluid(Body *drops, int x, int y, int z, int N);
+        bool is_it_fluid(Body *drops, int x, int y, int z, int N);
 
         friend class Collider;
 };
