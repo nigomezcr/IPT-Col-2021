@@ -41,6 +41,14 @@ class Body{
         double get_y(void){return r[1];}
         double get_z(void){return r[2];}
 
+        double get_vx(void){return V[0];}
+        double get_vy(void){return V[1];}
+        double get_vz(void){return V[2];}
+
+        double get_fx(void){return F[0];}
+        double get_fy(void){return F[1];}
+        double get_fz(void){return F[2];}
+
         double kinetic(void){return 0.5*m*vec3d::norm2(V);}
 
         friend class Collider;
