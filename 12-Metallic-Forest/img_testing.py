@@ -21,14 +21,15 @@ def save_image(image, fname, title='', cmap_type='gray'):
     plt.savefig(fname)
 
 
-base = Path('Images')
+base = Path('Powls_Images/Escenary1/Dendrite1/')
 
 # Import image
-image = plt.imread(base / 'DendritesMetallicForest1.png')
+image = plt.imread(base / 'Foto6.jpg')
 
 # Turn to grayscale
-image = rgb2gray(rgba2rgb(image))
+image = rgb2gray(image)
 
+#image = np.array([[j if j < 0.7 else 0 for j in i] for i in image])
 
 # Calculate threshold (this is an algorithm and may not be the best for every image)
 thresh = threshold_otsu(image)
@@ -54,4 +55,4 @@ ax[2].axis('off')
 
 plt.show()
 
-save_image(binary, 'article_test.png')
+#save_image(binary, 'article_test.png')
