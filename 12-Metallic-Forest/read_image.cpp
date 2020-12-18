@@ -9,8 +9,12 @@ int main(int argc, char *argv[])
 {
   // Transform the name into its main part
   std::string name(argv[1]);
-  std::size_t pos = name.find("/");
-  name.erase(0,pos+1);
+  std::size_t pos;
+  pos = name.find("/");
+  while (pos < name.size()){
+    pos = name.find("/");
+    name.erase(0,pos+1);
+  }
   pos = name.find(".");
   name.erase(pos);
 
@@ -31,10 +35,10 @@ int main(int argc, char *argv[])
   cv::findNonZero(bw, white_pixels);
 
   //Get the data for find the FD
-  print_FD("Data_FD/" + name + ".csv", white_pixels);
+  print_FD("Powls_Images/Escenary1/Data_FD_Dendrite1/" + name + ".csv", white_pixels);
 
   //Get the points of the figure
-  print_image("Data_FD/" + name + "_image.csv", white_pixels);
+  print_image("Powls_Images/Escenary1/Data_FD_Dendrite1/" + name + "_image.csv", white_pixels);
 
   /* Show image */
   cv::namedWindow("window", CV_WINDOW_AUTOSIZE );
