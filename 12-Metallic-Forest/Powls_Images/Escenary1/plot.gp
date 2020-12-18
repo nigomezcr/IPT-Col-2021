@@ -1,5 +1,5 @@
-nameCSV = 'Data_FD_Dendrite1/'.filename.'.csv'
-nameLOG = 'Data_FD_Dendrite1/'.filename.'.log'
+nameCSV = 'Data_FD_processed/'.filename.'.csv'
+nameLOG = 'Data_FD_processed/'.filename.'.log'
 
 f(x) = a*x + b
 
@@ -9,7 +9,7 @@ set fit quiet
 fit f(x) nameCSV u (log($1)):(log($2)) via a,b
 
 set terminal pdfcairo enhanced font "Mf Young & Beautiful"
-set output 'Data_FD_Dendrite1/'.filename.'.pdf'
+set output 'Data_FD_processed/'.filename.'.pdf'
 
 set xlabel "log({/Symbol e})"
 set ylabel "log(N)"

@@ -35,10 +35,10 @@ int main(int argc, char *argv[])
   cv::findNonZero(bw, white_pixels);
 
   //Get the data for find the FD
-  print_FD("Powls_Images/Escenary1/Data_FD_Dendrite1/" + name + ".csv", white_pixels);
+  print_FD("Powls_Images/Escenary1/Data_FD_processed/" + name + ".csv", white_pixels);
 
   //Get the points of the figure
-  print_image("Powls_Images/Escenary1/Data_FD_Dendrite1/" + name + "_image.csv", white_pixels);
+  print_image("Powls_Images/Escenary1/Data_FD_processed/" + name + "_image.csv", white_pixels);
 
   /* Show image */
   cv::namedWindow("window", CV_WINDOW_AUTOSIZE );
