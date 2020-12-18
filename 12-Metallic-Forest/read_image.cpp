@@ -36,11 +36,11 @@ int main(int argc, char *argv[])
 
   std::cout << name << std::endl;
   //Get the data for find the FD
-  print_FD("Powls_Images/Escenary5/Data_FD_processed/" + name + ".csv", white_pixels);
+  print_FD("Data_FD/" + name + ".csv", white_pixels);
 
   std::cout << name << std::endl;
   //Get the points of the figure
-  print_image("Powls_Images/Escenary5/Data_FD_processed/" + name + "_image.csv", white_pixels);
+  print_image("Data_FD/" + name + "_image.csv", white_pixels);
 
   std::cout << name << std::endl;
   /* Show image */
