@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage.color import rgb2gray
-from skimage.filters import threshold_li
+from skimage.filters import threshold_li, threshold_otsu
 
 
 def show_image(image, title='Image', cmap_type='gray'):
@@ -20,7 +20,7 @@ def save_image(image, fname, title='', cmap_type='gray'):
     plt.savefig(fname)
 
 
-base = Path('Images')
+base = Path('Powls_Images/Escenary2/Dendrites/')
 
 for image in base.iterdir():
     # Import image
@@ -32,6 +32,7 @@ for image in base.iterdir():
     thresh = threshold_li(gray)
     binary = gray > thresh
 
-    fname = 'processed/' + str(image).split('/')[-1]
+    fname = 'Powls_Images/Escenary2/processed/li_' + \
+        str(image).split('/')[-1]
 
     save_image(binary, fname)

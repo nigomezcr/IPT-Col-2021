@@ -14,7 +14,7 @@ unsigned int box_counting(std::vector<cv::Point> &y, unsigned int deltax, unsign
 
   //Count the number of squares where is, at least, one pixel
   unsigned int N = 0;
-  unsigned int div = epsilon*epsilon*0.5;  
+  unsigned int div = epsilon*epsilon*0.5;
   for(size_t i=0; i<deltax*deltay; i++){N += my_array[i];}
 
   return N;
@@ -41,7 +41,7 @@ void print_FD(std::string name, std::vector<cv::Point> &y){
 
   //Print the epsilon and the box_counting
   std::ofstream fout(name);
-  for(unsigned int i=1; i<30; i++){fout << i << '\t' << box_counting(y, (deltax/i)+1, (deltay/i)+1, i, xmin, ymin) << std::endl;}
+  for(unsigned int i=1; i<15; i++){fout << i << '\t' << box_counting(y, (deltax/i)+1, (deltay/i)+1, i, xmin, ymin) << std::endl;}
   fout.close();
 }
 
