@@ -27,15 +27,15 @@ base = Path('Powls_Images/Escenary2/Dendrites/')
 image = plt.imread(base / 'Foto2.jpg')
 
 # Turn to grayscale
-image = denoise_bilateral(rgb2gray(image))
+image = rgb2gray(image)
 
 #image = np.array([[j if j < 0.7 else 0 for j in i] for i in image])
 
-# fig, ax = try_all_threshold(image, verbose=False)
+#fig, ax = try_all_threshold(image, verbose=False)
 # plt.show()
 
 # Calculate threshold (this is an algorithm and may not be the best for every image)
-thresh = threshold_local(image, block_size=105, offset=0)
+thresh = threshold_local(image, block_size=55, offset=0.05)
 binary = image > thresh
 
 fig, axes = plt.subplots(ncols=3, figsize=(15, 2.5))
@@ -58,4 +58,4 @@ ax[2].axis('off')
 
 plt.show()
 
-#save_image(binary, 'article_test.png')
+save_image(binary, 'Powls_Images/Escenary2/processed/Foto2.jpg')
