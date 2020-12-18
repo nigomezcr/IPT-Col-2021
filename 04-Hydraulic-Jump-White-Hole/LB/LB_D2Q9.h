@@ -9,16 +9,12 @@
 
 // Geometry
 #define Lx 256
-#define Ly 10
+#define Ly 20
 #define D 2
 #define Q 9
 
-// Obstacle
-#define Lx3 (Lx/3)
-#define Ly3 (Ly/3)
-
-#define T_Lx3 (2*Lx/3)
-#define T_Ly3 (2*Ly/3)
+#define jet_min 124
+#define jet_max 132
 
 // 2D to 1D
 #define size (Lx*Ly*Q)
@@ -33,21 +29,21 @@
 
 // LB constants
 #define tau 0.55
-#define Utau (1.0/tau)
-#define UmUtau (1.0-Utau)
+#define Utau 1.81818181818182
+#define UmUtau (-0.81818181818182)
 
 class LatticeBoltzmann{
 protected:
-  double w[Q]; int V[D][Q];
-  double *f = NULL, *f_new = NULL;
+    double w[Q]; int V[D][Q];
+    double *f = NULL, *f_new = NULL;
 public:
-  LatticeBoltzmann(void);
-  ~LatticeBoltzmann();
-  double rho(int position);
-  double Jx(int position);
-  double Jy(int position);
-  double Jx_new(int ix, int iy);
-  double Jy_new(int ix, int iy);
+    LatticeBoltzmann(void);
+    ~LatticeBoltzmann();
+    double rho(int position);
+    double Jx(int position);
+    double Jy(int position);
+    double Jx_new(int ix, int iy);
+    double Jy_new(int ix, int iy);
 };
 
 #endif
