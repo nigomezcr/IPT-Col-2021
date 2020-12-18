@@ -21,10 +21,10 @@ def save_image(image, fname, title='', cmap_type='gray'):
     plt.savefig(fname)
 
 
-base = Path('Powls_Images/Escenary2/Dendrites/')
+base = Path('Powls_Images/Escenary4/Dendrites/')
 
 # Import image
-image = plt.imread(base / 'Foto2.jpg')
+image = plt.imread(base / 'Foto9.jpg')
 
 # Turn to grayscale
 image = rgb2gray(image)
@@ -35,7 +35,7 @@ image = rgb2gray(image)
 # plt.show()
 
 # Calculate threshold (this is an algorithm and may not be the best for every image)
-thresh = threshold_local(image, block_size=55, offset=0.05)
+thresh = threshold_local(image, block_size=55, offset=0.025)
 binary = image > thresh
 
 fig, axes = plt.subplots(ncols=3, figsize=(15, 2.5))
@@ -58,4 +58,4 @@ ax[2].axis('off')
 
 plt.show()
 
-save_image(binary, 'Powls_Images/Escenary2/processed/Foto2.jpg')
+save_image(binary, 'Powls_Images/Escenary4/processed/Foto9.jpg')
