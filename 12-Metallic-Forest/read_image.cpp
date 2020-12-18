@@ -34,16 +34,19 @@ int main(int argc, char *argv[])
   std::vector<cv::Point> white_pixels;
   cv::findNonZero(bw, white_pixels);
 
+  std::cout << name << std::endl;
   //Get the data for find the FD
-  print_FD("Powls_Images/Escenary1/Data_FD_processed/" + name + ".csv", white_pixels);
+  print_FD("Powls_Images/Escenary2/Data_FD_processed/" + name + ".csv", white_pixels);
 
+  std::cout << name << std::endl;
   //Get the points of the figure
-  print_image("Powls_Images/Escenary1/Data_FD_processed/" + name + "_image.csv", white_pixels);
+  print_image("Powls_Images/Escenary2/Data_FD_processed/" + name + "_image.csv", white_pixels);
 
+  std::cout << name << std::endl;
   /* Show image */
   cv::namedWindow("window", CV_WINDOW_AUTOSIZE );
   imshow("window", bw);
-  cv::waitKey(10*1e3);
+  cv::waitKey(10*0.2e3);
 
   return 0;
 }
