@@ -3,8 +3,8 @@ from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage.color import rgb2gray, rgba2rgb
-from skimage.filters import threshold_otsu
-from skimage.restoration import denoise_wavelet
+from skimage.filters import threshold_otsu, try_all_threshold, threshold_local
+from skimage.restoration import denoise_bilateral
 
 
 def show_image(image, title='', cmap_type='gray'):
@@ -21,17 +21,21 @@ def save_image(image, fname, title='', cmap_type='gray'):
     plt.savefig(fname)
 
 
-base = Path('Images')
+base = Path('Powls_Images/Escenary2/Dendrites/')
 
 # Import image
-image = plt.imread(base / 'DendritesMetallicForest1.png')
+image = plt.imread(base / 'Foto2.jpg')
 
 # Turn to grayscale
-image = rgb2gray(rgba2rgb(image))
+image = denoise_bilateral(rgb2gray(image))
 
+#image = np.array([[j if j < 0.7 else 0 for j in i] for i in image])
+
+# fig, ax = try_all_threshold(image, verbose=False)
+# plt.show()
 
 # Calculate threshold (this is an algorithm and may not be the best for every image)
-thresh = threshold_otsu(image)
+thresh = threshold_local(image, block_size=105, offset=0)
 binary = image > thresh
 
 fig, axes = plt.subplots(ncols=3, figsize=(15, 2.5))
@@ -46,7 +50,7 @@ ax[0].axis('off')
 
 ax[1].hist(image.ravel(), bins=256)
 ax[1].set_title('Histogram')
-ax[1].axvline(thresh, color='r')
+#ax[1].axvline(thresh, color='r')
 
 ax[2].imshow(binary, cmap=plt.cm.gray)
 ax[2].set_title('Thresholded')
@@ -54,4 +58,4 @@ ax[2].axis('off')
 
 plt.show()
 
-save_image(binary, 'article_test.png')
+#save_image(binary, 'article_test.png')

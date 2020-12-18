@@ -9,7 +9,7 @@
 
 // Geometry
 #define Lx 256
-#define Ly 64
+#define Ly 10
 #define D 2
 #define Q 9
 
@@ -37,17 +37,17 @@
 #define UmUtau (1.0-Utau)
 
 class LatticeBoltzmann{
-    protected:
-        double w[Q]; int V[D][Q];
-        double *f = NULL, *f_new = NULL;
-    public:
-        LatticeBoltzmann(void);
-        ~LatticeBoltzmann();
-        double rho(int position);
-        double Jx(int position);
-        double Jy(int position);
-        double Jx_new(int ix, int iy);
-        double Jy_new(int ix, int iy);
+protected:
+  double w[Q]; int V[D][Q];
+  double *f = NULL, *f_new = NULL;
+public:
+  LatticeBoltzmann(void);
+  ~LatticeBoltzmann();
+  double rho(int position);
+  double Jx(int position);
+  double Jy(int position);
+  double Jx_new(int ix, int iy);
+  double Jy_new(int ix, int iy);
 };
 
 #endif
