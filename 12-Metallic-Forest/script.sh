@@ -1,4 +1,4 @@
-dir="Powls_Images/Escenary2/Dendrites/"
+dir="Powls_Images/Escenary5/processed/"
 
 for i in $dir*; do
     ./x.read_image $i
