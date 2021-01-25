@@ -20,7 +20,7 @@ def save_image(image, fname, title='', cmap_type='gray'):
     plt.savefig(fname)
 
 
-base = Path('Powls_Images/Escenary5/Dendrites/')
+base = Path('Powls_Images/Escenary1/Dendrite1/')
 
 for image in base.iterdir():
     # Import image
@@ -32,7 +32,7 @@ for image in base.iterdir():
     thresh = threshold_otsu(gray)
     binary = gray > thresh
 
-    fname = 'Powls_Images/Escenary5/processed/otsu_' + \
+    fname = 'Powls_Images/Escenary1/processed/' + \
         str(image).split('/')[-1]
 
     save_image(binary, fname)
