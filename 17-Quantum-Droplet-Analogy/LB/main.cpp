@@ -1,11 +1,11 @@
 #include "Fluids_LB_D3Q19.h"
 #include "molecular_dynamics.h"
 
-#define TMAX 1000
+#define TMAX 8000
 #define N 1
 #define dt 1.6083e-4
 
-#define R 6.0
+#define R 4.0
 #define m (4.0*M_PI*R*R*R/3.0)
 
 std::string filename(int t);
@@ -25,7 +25,7 @@ int main(void){
     double r[N*3], v[N*3], F[N*3];
 
 
-    Drops[0].initialize(Lx/2.0, Ly/2.0, Lz + 1.4*R, 0,0,0, m, R);
+    Drops[0].initialize(Lx/3.0, Ly/2.0, Lz + 1.4*R, 0,0,0, m, R);
 
     Boltzmann.initialize(r, R, N);
     Boltzmann.save_2D("initial.csv", Lx/2);

@@ -14,7 +14,7 @@ private:
 public:
     void collide(void);
     void propagate(void);
-    void initialize(double rho0, double Ux0, double Uy0, double Uz0, double R0, double H0);
+    void initialize(void);
 
     double detector(int x_pos);
     void save(std::string filename);

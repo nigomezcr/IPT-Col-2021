@@ -10,3 +10,7 @@
 
 #Ommit the Gnuplot fitting files
 *.log
+
+# config files
+*.json
+*.csv

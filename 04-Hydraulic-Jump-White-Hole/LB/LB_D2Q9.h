@@ -8,13 +8,19 @@
 #include<sstream>
 
 // Geometry
-#define Lx 256
-#define Ly 20
+#define Lx 300
+#define Ly 10
 #define D 2
 #define Q 9
 
-#define jet_min 124
-#define jet_max 132
+#define Lxm1 (Lx-1)
+#define Lym1 (Ly-1)
+
+#define jet_min 135
+#define jet_max 165
+
+// #define jet_min 4
+// #define jet_max 6
 
 // 2D to 1D
 #define size (Lx*Ly*Q)

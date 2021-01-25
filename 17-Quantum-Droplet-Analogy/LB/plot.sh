@@ -10,7 +10,7 @@
 #     m: 2D heat map
 #     v: 2D vector plot
 #     V: 3D vector plot
-#     H: 2D heat map & vector plot
+#     M: 2D heat map & vector plot
 
 #     r: don't run the gnuplot script
 
@@ -26,9 +26,10 @@ vector2d=false
 vector3d=false
 run=true
 scatter=false
+scatter3d=false
 heat_vector=false
 
-while getopts f:o:mvVsHr flag # the ':' after each flag means it requires an argument
+while getopts f:o:mMvVsSr flag # the ':' after each flag means it requires an argument
     do
         case "${flag}" in
             f) file_to_plot=${OPTARG};;
@@ -38,7 +39,8 @@ while getopts f:o:mvVsHr flag # the ':' after each flag means it requires an arg
             V) vector3d=true ;;
             r) run=false ;;
             s) scatter=true ;;
-            H) heat_vector=true ;;
+            S) scatter3d=true ;;
+            M) heat_vector=true ;;
         esac
     done
 
@@ -71,6 +73,15 @@ if [ "$scatter" = true ]; then
     echo "gnuplot file built"
 fi
 
+if [ "$scatter3d" = true ]; then
+    rm plot.gnu
+    echo "set datafile separator ','" >> "plot.gnu"
+    echo "set term png" >> "plot.gnu"
+    echo "set output '$output_file'" >> "plot.gnu"
+    echo "splot '$file_to_plot'" >> "plot.gnu"
+    echo "gnuplot file built"
+fi
+
 if [ "$heat_vector" = true ]; then
     rm plot.gnu
     echo "set datafile separator ','" >> "plot.gnu"
@@ -78,7 +89,7 @@ if [ "$heat_vector" = true ]; then
     echo "set size ratio 1" >> "plot.gnu"
     echo "set term png" >> "plot.gnu"
     echo "set output '$output_file'" >> "plot.gnu"
-    echo "splot '$file_to_plot' using 1:2:5, '' using 1:2:(0):3:4:(0) w vec linecolor rgb '#000000'" >> "plot.gnu"
+    echo "splot '$file_to_plot' using 1:2:5 notitle, '' using 1:2:(0):3:4:(0) notitle w vec linecolor rgb '#000000'" >> "plot.gnu"
     echo "gnuplot file built"
 fi
 
