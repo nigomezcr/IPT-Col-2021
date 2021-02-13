@@ -89,7 +89,7 @@ def Table2():
     
     np.savetxt("flux-data.txt", table)
 
-Table2()
+
 
 
 """
