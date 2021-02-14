@@ -1,17 +1,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.integrate import quad, dblquad
+from scipy.integrate import quad, dblquad, odeint
+
 
 R = 1
 M = 1
 L = 1
+sigma = 1
 MU0 = 1#4 * np.pi * 1e-5  # in T cm / A units
 
 #Integrand
 def f(r_prim, z_prim, r, z):
 
     norm = np.sqrt((r - r_prim)**2 + (z - z_prim)**2)
- #   return norm
     a = 3 * (z - z_prim)**2
     a = a / (norm**5)
 
@@ -19,10 +20,24 @@ def f(r_prim, z_prim, r, z):
 
     return (0.5 * M * MU0 * r_prim ) * (a - b)
 
+def fdot(r_prim, z_prim, r, z):
+    norm = np.sqrt((r - r_prim)**2 + (z - z_prim)**2)
+    a = 9*(z-z_prim)
+    b = 15*(z-z_prim)**3
+    
+    a = a/norm**5
+    b = b/norm**7
+    
+    return (0.5 * M * MU0 * r_prim ) * (a - b)
+    
+
 #Magnetic field
 def B(r,z):
-    
     return dblquad(lambda t, x: f(t,x,r,z), 0, L, lambda x: 0, lambda x: R)[0]
+
+def Bdot(r,z,vz):
+    I =  dblquad(lambda t, x: fdot(t,x,r,z), 0, L, lambda x: 0, lambda x: R)[0]
+    return vz*I
 
 #Analytical solution
 def Banal(z):
@@ -88,6 +103,18 @@ def Table2():
     
     
     np.savetxt("flux-data.txt", table)
+
+#Current density
+def J_rho(r):
+    A = 1 #(?)
+    return A/r
+
+def Maxwell_eqs(J, r, h, vz):
+    dJdr = - J/r - 1/sigma*Bdot(r, h, vz)
+    return dJdr
+
+
+ 
 
 
 
