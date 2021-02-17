@@ -13,6 +13,8 @@ FileHandler::FileHandler(std::string filename, char delim_char, char comm_char, 
 
     file.close();
 
+    rows = content.size();
+
     if(symmetric) check_content();
 }
 
@@ -37,6 +39,8 @@ void FileHandler::read_line(const std::string &line, vector(std::string) &row){
             temp = "";
         }
     }
+
+    if(temp != "") row.push_back(temp);
 
 }
 
@@ -66,7 +70,6 @@ void FileHandler::load_file(std::ifstream &file){
         line_num++;
     }
 
-    rows = line_num;
 }
 
 /**
