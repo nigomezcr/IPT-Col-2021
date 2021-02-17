@@ -25,7 +25,7 @@ parallel : main.cpp
 .PHONY : debug
 debug : main.cpp
 	g++ $(C_STD) $(DEBUG) $< $(DEPS) -o debug.o
-	debug.o
+	./debug.o
 
 .PHONY : valgrind
 valgrind : main.cpp
