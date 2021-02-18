@@ -5,7 +5,7 @@ int main(void){
 
     Branches.initialize("potential1.csv");
 
-    // Branches.rk4_solve();
+    Branches.rk4_solve();
     // Branches.save("branches_1.csv");
 
     Branches.initialize("potential2.csv");
