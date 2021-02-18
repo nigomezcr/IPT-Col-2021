@@ -44,6 +44,19 @@ void BranchedFlow::rk4_solve(){
     }
 }
 
+void BranchedFlow::save(std::string filename){
+    std::ofstream file(filename);
+
+    for(int ix=0; ix<Lx; ix++){
+        for(int iy=0; iy<Ly; iy++)
+            file << ix << ','<< iy <<',' << std::norm(film[get_1D(ix, iy)]) << '\n';
+        file << '\n';
+    }
+
+    file << std::endl;
+    file.close();
+}
+
 BranchedFlow::~BranchedFlow(){
     delete[] film;
 }

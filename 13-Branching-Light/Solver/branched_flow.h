@@ -30,5 +30,5 @@ class BranchedFlow{
         void initialize(std::string potential_file);
         c_double paraxial_equation(c_double u_xy, c_double uxy1, c_double uxy_1, double potential);
         void rk4_solve(void);
-        // void save(std::string filename);
+        void save(std::string filename);
 };
