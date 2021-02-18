@@ -22,9 +22,8 @@ class BranchedFlow{
         const double h = dx*dx/(2.0*C);
         const c_double j = {0.0, 1.0};
 
-        std::vector< std::vector<double> > potential;
-        //double *film = NULL;
-        c_double *film;
+        c_double *film = NULL;
+        double *potential = NULL;
     public:
         ~BranchedFlow();
         void initialize(std::string potential_file);

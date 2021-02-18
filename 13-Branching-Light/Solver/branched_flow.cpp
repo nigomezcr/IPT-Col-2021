@@ -6,15 +6,29 @@ void BranchedFlow::initialize(std::string potential_file){
     int Lx_new = (int)file.content[file.get_rows()-1][0] + 1;
     int Ly_new = (int)file.content[file.get_rows()-1][1] + 1;
 
-    potential = file.content;
-
     if(Lx != 0 && Ly != 0){
         delete[] film;
+        delete[] potential;
     }
 
-    film = new c_double[Lx_new*Ly_new];
-
     Lx = Lx_new; Ly = Ly_new;
+
+    film = new c_double[Lx*Ly];
+
+    double sigma = Ly/100.0;
+    double mu = Ly/2.0;
+
+    c_double exp_cons = 1.0/(sigma*std::sqrt(2*M_PI));
+
+    for(int iy=0; iy<Ly; iy++)
+        film[get_1D(0, iy)] = std::exp(-0.5*(iy-mu)*(iy-mu)/(sigma*sigma));
+
+    potential = new double[Lx*Ly];
+
+    for(int i=0; i<file.get_rows(); i++){
+        int ix = (int)file.content[i][0], iy = (int)file.content[i][1];
+        potential[get_1D(ix, iy)] = file.content[i][3];
+    }
 }
 
 c_double BranchedFlow::paraxial_equation(c_double uxy, c_double uxy1, c_double uxy_1, double potential){
@@ -32,7 +46,7 @@ void BranchedFlow::rk4_solve(){
             c_double uxy_1 = film[get_1D(ix, iy-1)];
             c_double uxy = film[get_1D(ix, iy)];
             c_double uxy1 = film[get_1D(ix, iy+1)];
-            double V = 1.0; //potential[ix][iy];
+            double V = potential[get_1D(ix, iy)];
 
             c_double k1 = h*paraxial_equation(uxy, uxy1, uxy_1, V);
             c_double k2 = h*paraxial_equation(uxy+k1/2.0, uxy1+k1/2.0, uxy_1+k1/2.0, V);
