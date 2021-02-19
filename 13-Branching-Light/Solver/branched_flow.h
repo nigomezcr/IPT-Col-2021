@@ -17,9 +17,7 @@
 class BranchedFlow{
     private:
         int Lx = 0, Ly = 0;
-        const double C = -1.0/(2.0*K0*N0);
-        const double dx = 1.0;
-        const double h = dx*dx/(2.0*C);
+        double C, h;
         const c_double j = {0.0, 1.0};
 
         c_double *film = NULL;

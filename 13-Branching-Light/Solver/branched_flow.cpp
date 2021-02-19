@@ -13,6 +13,8 @@ void BranchedFlow::initialize(std::string potential_file){
 
     Lx = Lx_new; Ly = Ly_new;
 
+    // Film
+
     film = new c_double[Lx*Ly];
 
     double sigma = Ly/100.0;
@@ -23,29 +25,34 @@ void BranchedFlow::initialize(std::string potential_file){
     for(int iy=0; iy<Ly; iy++)
         film[get_1D(0, iy)] = std::exp(-0.5*(iy-mu)*(iy-mu)/(sigma*sigma));
 
+    // Potential
+
     potential = new double[Lx*Ly];
 
     for(int i=0; i<file.get_rows(); i++){
         int ix = (int)file.content[i][0], iy = (int)file.content[i][1];
-        potential[get_1D(ix, iy)] = file.content[i][3];
+        potential[get_1D(ix, iy)] = (double)file.content[i][3];
     }
+
+    // System constants
+
+    C = (532e-6*Ly)*0.25*M_1_PI/(N0*10.0); // C1 = lambda/(4 pi n_0). Lambda is converted to comp. dom. via real size/Ly
+    h = 1e-8; // should be (dx^2)/(2.0*C). I forced it for now
 }
 
 c_double BranchedFlow::paraxial_equation(c_double uxy, c_double uxy1, c_double uxy_1, double potential){
-    c_double derivative = (uxy1 - 2.0*uxy + uxy_1)/(dx*dx);
-
-    return j*C*derivative + j*C*potential*uxy*std::norm(uxy);
+    return -1.0*j*C*(uxy1 - 2.0*uxy + uxy_1) + j*C*potential*uxy; // *std::norm(uxy);
 }
 
 void BranchedFlow::rk4_solve(){
     for(int ix=0; ix<Lx-1; ix++){ // move information from ix to ix+1
         film[get_1D(ix, 0)] = 0.0;
-        film[get_1D(ix, Ly-1)] = 0.0;
+        film[get_1D(ix, (Ly-1))] = 0.0;
 
         for(int iy=1; iy<Ly-1; iy++){
-            c_double uxy_1 = film[get_1D(ix, iy-1)];
+            c_double uxy_1 = film[get_1D(ix, (iy-1))];
             c_double uxy = film[get_1D(ix, iy)];
-            c_double uxy1 = film[get_1D(ix, iy+1)];
+            c_double uxy1 = film[get_1D(ix, (iy+1))];
             double V = potential[get_1D(ix, iy)];
 
             c_double k1 = h*paraxial_equation(uxy, uxy1, uxy_1, V);
@@ -63,7 +70,7 @@ void BranchedFlow::save(std::string filename){
 
     for(int ix=0; ix<Lx; ix++){
         for(int iy=0; iy<Ly; iy++)
-            file << ix << ','<< iy <<',' << std::norm(film[get_1D(ix, iy)]) << '\n';
+            file << ix << ','<< iy <<',' << std::sqrt(std::norm(film[get_1D(ix, iy)])) << '\n';
         file << '\n';
     }
 
@@ -73,4 +80,5 @@ void BranchedFlow::save(std::string filename){
 
 BranchedFlow::~BranchedFlow(){
     delete[] film;
+    delete[] potential;
 }
