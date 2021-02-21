@@ -1,29 +1,32 @@
 #include"branched_flow.h"
 
-void BranchedFlow::initialize(std::string potential_file){
+void BranchedFlow::initialize(std::string potential_file, int init_cond){
     FileHandler file(potential_file);
-
-    int Lx_new = (int)file.content[file.get_rows()-1][0] + 1;
-    int Ly_new = (int)file.content[file.get_rows()-1][1] + 1;
 
     if(Lx != 0 && Ly != 0){
         delete[] film;
         delete[] potential;
     }
 
-    Lx = Lx_new; Ly = Ly_new;
+    Lx = (int)file.content[file.get_rows()-1][0] + 1;
+    Ly = (int)file.content[file.get_rows()-1][1] + 1;
 
     // Film
 
     film = new c_double[Lx*Ly];
 
-    double sigma = Ly/100.0;
-    double mu = Ly/2.0;
+    if(init_cond == 0){
+        double sigma = Ly/100.0;
+        double mu = Ly/2.0;
 
-    c_double exp_cons = 1.0/(sigma*std::sqrt(2*M_PI));
-
-    for(int iy=0; iy<Ly; iy++)
-        film[get_1D(0, iy)] = std::exp(-0.5*(iy-mu)*(iy-mu)/(sigma*sigma));
+        for(int iy=0; iy<Ly; iy++)
+            film[get_1D(0, iy)] = std::exp(-0.5*(iy-mu)*(iy-mu)/(sigma*sigma));
+    }
+    else if(init_cond == 1){
+        for(int iy=0; iy<Ly; iy++)
+            film[get_1D(0, iy)] = 1.0;
+    }
+    else throw ValueError();
 
     // Potential
 
@@ -33,15 +36,10 @@ void BranchedFlow::initialize(std::string potential_file){
         int ix = (int)file.content[i][0], iy = (int)file.content[i][1];
         potential[get_1D(ix, iy)] = (double)file.content[i][3];
     }
-
-    // System constants
-
-    C = (532e-6*Ly)*0.25*M_1_PI/(N0*10.0); // C1 = lambda/(4 pi n_0). Lambda is converted to comp. dom. via real size/Ly
-    h = 1e-8; // should be (dx^2)/(2.0*C). I forced it for now
 }
 
 c_double BranchedFlow::paraxial_equation(c_double uxy, c_double uxy1, c_double uxy_1, double potential){
-    return -1.0*j*C*(uxy1 - 2.0*uxy + uxy_1) + j*C*potential*uxy; // *std::norm(uxy);
+    return -1.0*j*C*(uxy1 - 2.0*uxy + uxy_1)*o_dy2 + j*C*potential*uxy; // *std::norm(uxy);
 }
 
 void BranchedFlow::rk4_solve(){
