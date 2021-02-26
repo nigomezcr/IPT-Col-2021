@@ -1,106 +1,96 @@
-Date,Time,Humidity,Voltage
-15/02,Morning,NAN,0
-,,,0
-,,,0
-,,,0
-,,,0
-,Night,WET ,4.78
-,,,4.92
-,,,4.85
-,,,4.4
-,,,4.76
-16/02,Morning,WET ,0.81
-,,,0.78
-,,,0.79
-,,,0.82
-,,,0.86
-,Night,DRY +,0.89
-,,,0.79
-,,,0.84
-,,,0.87
-,,,0.87
-17/02,Morning,DRY +,1.4
-,,,1.39
-,,,1.39
-,,,1.39
-,,,1.38
-,Night,DRY +,1.04
-,,,1.04
-,,,0.95
-,,,1.03
-,,,1
-18/02,Morning,DRY +,1.16
-,,,1.17
-,,,1.11
-,,,1.11
-,,,1.18
-,Night,DRY +,1.16
-,,,1.07
-,,,1.11
-,,,1.15
-,,,1.13
-19/02,Morning,WET,0.62
-,,,0.64
-,,,0.66
-,,,0.66
-,,,0.63
-,Night,NOR,0.69
-,,,0.76
-,,,0.74
-,,,0.72
-,,,0.72
-20/02,Morning,NOR,0.93
-,,,0.91
-,,,0.9
-,,,0.99
-,,,0.9
-,Night,DRY,0.99
-,,,0.9
-,,,0.88
-,,,0.93
-,,,0.91
-21/02,Morning,DRY,1.12
-,,,1.13
-,,,1.02
-,,,1.08
-,,,1.1
-,Night,DRY+,1.16
-,,,1.15
-,,,1.14
-,,,1.15
-,,,1.16
-22/02,Morning,WET +,0.67
-,,,0.7
-,,,0.65
-,,,0.55
-,,,0.81
-,Night,WET +,0.66
-,,,0.62
-,,,0.59
-,,,0.66
-,,,0.66
-23/02,Morning,WET,0.71
-,,,0.77
-,,,0.66
-,,,0.67
-,,,0.67
-,Night,NOR,0.69
-,,,0.67
-,,,0.65
-,,,0.65
-,,,0.67
-24/02,Morning,NOR,0.72
-,,,0.72
-,,,0.74
-,,,0.72
-,,,0.73
-,Night,DRY,0.76
-,,,0.72
-,,,0.7
-,,,0.68
-,,,0.7
-25/02,Morning,WET +,0.68
-,,,0.67
-,,,0.69
-,,,0.7
-,,,0.72
+Date,Time,Humidity,Voltage,Temperature
+16/02,Morning,WET +,0.81,18
+16/02,Morning,WET +,0.78,18
+16/02,Morning,WET +,0.79,18
+16/02,Morning,WET +,0.82,18
+16/02,Morning,WET +,0.86,18
+16/02,Night,WET,0.89,21
+16/02,Night,WET,0.79,21
+16/02,Night,WET,0.84,21
+16/02,Night,WET,0.87,21
+16/02,Night,WET,0.87,21
+17/02,Morning,WET,1.4,20
+17/02,Morning,WET,1.39,20
+17/02,Morning,WET,1.39,20
+17/02,Morning,WET,1.39,20
+17/02,Morning,WET,1.38,20
+17/02,Night,NOR,1.04,21
+17/02,Night,NOR,1.04,21
+17/02,Night,NOR,0.95,21
+17/02,Night,NOR,1.03,21
+17/02,Night,NOR,1,21
+18/02,Morning,DRY,1.16,20
+18/02,Morning,DRY,1.17,20
+18/02,Morning,DRY,1.11,20
+18/02,Morning,DRY,1.11,20
+18/02,Morning,DRY,1.18,20
+18/02,Night,DRY +,1.16,21
+18/02,Night,DRY +,1.07,21
+18/02,Night,DRY +,1.11,21
+18/02,Night,DRY +,1.15,21
+18/02,Night,DRY +,1.13,21
+19/02,Morning,WET +,0.62,20
+19/02,Morning,WET +,0.64,20
+19/02,Morning,WET +,0.66,20
+19/02,Morning,WET +,0.66,20
+19/02,Morning,WET +,0.63,20
+19/02,Night,WET,0.69,21
+19/02,Night,WET,0.76,21
+19/02,Night,WET,0.74,21
+19/02,Night,WET,0.72,21
+19/02,Night,WET,0.72,21
+20/02,Morning,NOR,0.93,20
+20/02,Morning,NOR,0.91,20
+20/02,Morning,NOR,0.9,20
+20/02,Morning,NOR,0.99,20
+20/02,Morning,NOR,0.9,20
+20/02,Night,DRY,0.99,21
+20/02,Night,DRY,0.9,21
+20/02,Night,DRY,0.88,21
+20/02,Night,DRY,0.93,21
+20/02,Night,DRY,0.91,21
+21/02,Morning,DRY,1.12,20
+21/02,Morning,DRY,1.13,20
+21/02,Morning,DRY,1.02,20
+21/02,Morning,DRY,1.08,20
+21/02,Morning,DRY,1.1,20
+21/02,Night,DRY+,1.16,21
+21/02,Night,DRY+,1.15,21
+21/02,Night,DRY+,1.14,21
+21/02,Night,DRY+,1.15,21
+21/02,Night,DRY+,1.16,21
+22/02,Morning,WET +,0.67,18
+22/02,Morning,WET +,0.7,18
+22/02,Morning,WET +,0.65,18
+22/02,Morning,WET +,0.55,18
+22/02,Morning,WET +,0.81,18
+22/02,Night,WET +,0.66,20
+22/02,Night,WET +,0.62,20
+22/02,Night,WET +,0.59,20
+22/02,Night,WET +,0.66,20
+22/02,Night,WET +,0.66,20
+23/02,Morning,WET,0.71,19
+23/02,Morning,WET,0.77,19
+23/02,Morning,WET,0.66,19
+23/02,Morning,WET,0.67,19
+23/02,Morning,WET,0.67,19
+23/02,Night,NOR,0.69,20
+23/02,Night,NOR,0.67,20
+23/02,Night,NOR,0.65,20
+23/02,Night,NOR,0.65,20
+23/02,Night,NOR,0.67,20
+24/02,Morning,NOR,0.72,19
+24/02,Morning,NOR,0.72,19
+24/02,Morning,NOR,0.74,19
+24/02,Morning,NOR,0.72,19
+24/02,Morning,NOR,0.73,19
+24/02,Night,DRY,0.76,19
+24/02,Night,DRY,0.72,19
+24/02,Night,DRY,0.7,19
+24/02,Night,DRY,0.68,19
+24/02,Night,DRY,0.7,19
+25/02,Morning,WET +,0.68,18
+25/02,Morning,WET +,0.67,18
+25/02,Morning,WET +,0.69,18
+25/02,Morning,WET +,0.7,18
+25/02,Morning,WET +,0.72,18
