@@ -7,7 +7,7 @@
 *.o
 *#
 *~
-*ipynb_checkpoints
+*.ipynb_checkpoints
 
 #Ommit the Gnuplot fitting files
 *.log
